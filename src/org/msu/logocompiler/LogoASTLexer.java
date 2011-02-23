@@ -1,5 +1,7 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 LogoAST.g 2011-02-16 02:47:17
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 LogoAST.g 2011-02-23 18:33:07
+
 package org.msu.logocompiler;
+
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -8,26 +10,32 @@ import java.util.ArrayList;
 
 public class LogoASTLexer extends Lexer {
     public static final int EOF=-1;
-    public static final int T__20=20;
-    public static final int T__21=21;
-    public static final int T__22=22;
-    public static final int T__23=23;
+    public static final int T__25=25;
+    public static final int T__26=26;
+    public static final int T__27=27;
+    public static final int T__28=28;
+    public static final int T__29=29;
     public static final int FUNCALL=4;
-    public static final int BLOCK=5;
-    public static final int WHILE=6;
-    public static final int IF=7;
-    public static final int COMMAND=8;
-    public static final int COMPAREOP=9;
-    public static final int TERMOP=10;
-    public static final int FACTOROP=11;
-    public static final int REFOP=12;
-    public static final int ID=13;
-    public static final int NUMBER=14;
-    public static final int LETTER=15;
-    public static final int NEWLINE=16;
-    public static final int COMMENT=17;
-    public static final int WHITESPACE=18;
-    public static final int DIGIT=19;
+    public static final int FUNCALLSTMT=5;
+    public static final int BLOCK=6;
+    public static final int SEXPR=7;
+    public static final int WHILE=8;
+    public static final int IF=9;
+    public static final int IFELSE=10;
+    public static final int COMMAND=11;
+    public static final int COMPAREOP=12;
+    public static final int TERMOP=13;
+    public static final int FACTOROP=14;
+    public static final int REFOP=15;
+    public static final int ID=16;
+    public static final int NUMBER=17;
+    public static final int UNARYOP=18;
+    public static final int FUNC=19;
+    public static final int LETTER=20;
+    public static final int NEWLINE=21;
+    public static final int COMMENT=22;
+    public static final int WHITESPACE=23;
+    public static final int DIGIT=24;
 
     // delegates
     // delegators
@@ -42,13 +50,13 @@ public class LogoASTLexer extends Lexer {
     }
     public String getGrammarFileName() { return "LogoAST.g"; }
 
-    // $ANTLR start "T__20"
-    public final void mT__20() throws RecognitionException {
+    // $ANTLR start "T__25"
+    public final void mT__25() throws RecognitionException {
         try {
-            int _type = T__20;
+            int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:3:7: ( '[' )
-            // LogoAST.g:3:9: '['
+            // LogoAST.g:7:7: ( '[' )
+            // LogoAST.g:7:9: '['
             {
             match('['); 
 
@@ -60,15 +68,15 @@ public class LogoASTLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__20"
+    // $ANTLR end "T__25"
 
-    // $ANTLR start "T__21"
-    public final void mT__21() throws RecognitionException {
+    // $ANTLR start "T__26"
+    public final void mT__26() throws RecognitionException {
         try {
-            int _type = T__21;
+            int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:4:7: ( ']' )
-            // LogoAST.g:4:9: ']'
+            // LogoAST.g:8:7: ( ']' )
+            // LogoAST.g:8:9: ']'
             {
             match(']'); 
 
@@ -80,15 +88,15 @@ public class LogoASTLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__21"
+    // $ANTLR end "T__26"
 
-    // $ANTLR start "T__22"
-    public final void mT__22() throws RecognitionException {
+    // $ANTLR start "T__27"
+    public final void mT__27() throws RecognitionException {
         try {
-            int _type = T__22;
+            int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:5:7: ( '(' )
-            // LogoAST.g:5:9: '('
+            // LogoAST.g:9:7: ( '(' )
+            // LogoAST.g:9:9: '('
             {
             match('('); 
 
@@ -100,15 +108,15 @@ public class LogoASTLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__22"
+    // $ANTLR end "T__27"
 
-    // $ANTLR start "T__23"
-    public final void mT__23() throws RecognitionException {
+    // $ANTLR start "T__28"
+    public final void mT__28() throws RecognitionException {
         try {
-            int _type = T__23;
+            int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:6:7: ( ')' )
-            // LogoAST.g:6:9: ')'
+            // LogoAST.g:10:7: ( ')' )
+            // LogoAST.g:10:9: ')'
             {
             match(')'); 
 
@@ -120,19 +128,40 @@ public class LogoASTLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__23"
+    // $ANTLR end "T__28"
+
+    // $ANTLR start "T__29"
+    public final void mT__29() throws RecognitionException {
+        try {
+            int _type = T__29;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // LogoAST.g:11:7: ( 'not' )
+            // LogoAST.g:11:9: 'not'
+            {
+            match("not"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__29"
 
     // $ANTLR start "COMMAND"
     public final void mCOMMAND() throws RecognitionException {
         try {
             int _type = COMMAND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:108:9: ( 'print' | 'make' | 'forward' | 'penup' | 'pendown' | 'color' | 'right' | 'beginfill' | 'endfill' | 'goto' | 'circle' | 'left' )
+            // LogoAST.g:119:9: ( 'print' | 'make' | 'forward' | 'penup' | 'pendown' | 'color' | 'right' | 'beginfill' | 'endfill' | 'goto' | 'circle' | 'left' )
             int alt1=12;
             alt1 = dfa1.predict(input);
             switch (alt1) {
                 case 1 :
-                    // LogoAST.g:109:10: 'print'
+                    // LogoAST.g:120:10: 'print'
                     {
                     match("print"); 
 
@@ -140,7 +169,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // LogoAST.g:110:4: 'make'
+                    // LogoAST.g:121:4: 'make'
                     {
                     match("make"); 
 
@@ -148,7 +177,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // LogoAST.g:111:6: 'forward'
+                    // LogoAST.g:122:6: 'forward'
                     {
                     match("forward"); 
 
@@ -156,7 +185,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // LogoAST.g:112:6: 'penup'
+                    // LogoAST.g:123:6: 'penup'
                     {
                     match("penup"); 
 
@@ -164,7 +193,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // LogoAST.g:113:6: 'pendown'
+                    // LogoAST.g:124:6: 'pendown'
                     {
                     match("pendown"); 
 
@@ -172,7 +201,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // LogoAST.g:114:6: 'color'
+                    // LogoAST.g:125:6: 'color'
                     {
                     match("color"); 
 
@@ -180,7 +209,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // LogoAST.g:115:6: 'right'
+                    // LogoAST.g:126:6: 'right'
                     {
                     match("right"); 
 
@@ -188,7 +217,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 8 :
-                    // LogoAST.g:116:6: 'beginfill'
+                    // LogoAST.g:127:6: 'beginfill'
                     {
                     match("beginfill"); 
 
@@ -196,7 +225,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 9 :
-                    // LogoAST.g:117:6: 'endfill'
+                    // LogoAST.g:128:6: 'endfill'
                     {
                     match("endfill"); 
 
@@ -204,7 +233,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 10 :
-                    // LogoAST.g:118:6: 'goto'
+                    // LogoAST.g:129:6: 'goto'
                     {
                     match("goto"); 
 
@@ -212,7 +241,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 11 :
-                    // LogoAST.g:119:6: 'circle'
+                    // LogoAST.g:130:6: 'circle'
                     {
                     match("circle"); 
 
@@ -220,7 +249,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 12 :
-                    // LogoAST.g:120:6: 'left'
+                    // LogoAST.g:131:6: 'left'
                     {
                     match("left"); 
 
@@ -237,10 +266,49 @@ public class LogoASTLexer extends Lexer {
     }
     // $ANTLR end "COMMAND"
 
+    // $ANTLR start "UNARYOP"
+    public final void mUNARYOP() throws RecognitionException {
+        try {
+            int _type = UNARYOP;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // LogoAST.g:133:9: ()
+            // LogoAST.g:134:9: 
+            {
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "UNARYOP"
+
+    // $ANTLR start "FUNC"
+    public final void mFUNC() throws RecognitionException {
+        try {
+            int _type = FUNC;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // LogoAST.g:136:5: ( 'modulo' )
+            // LogoAST.g:137:9: 'modulo'
+            {
+            match("modulo"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "FUNC"
+
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // LogoAST.g:122:17: ( 'a' .. 'z' | 'A' .. 'Z' )
+            // LogoAST.g:139:17: ( 'a' .. 'z' | 'A' .. 'Z' )
             // LogoAST.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
@@ -266,7 +334,7 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = COMPAREOP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:127:2: ( '>' | '<' | '>=' | '<=' | '=' )
+            // LogoAST.g:144:2: ( '>' | '<' | '>=' | '<=' | '=' )
             int alt2=5;
             switch ( input.LA(1) ) {
             case '>':
@@ -305,21 +373,21 @@ public class LogoASTLexer extends Lexer {
 
             switch (alt2) {
                 case 1 :
-                    // LogoAST.g:127:4: '>'
+                    // LogoAST.g:144:4: '>'
                     {
                     match('>'); 
 
                     }
                     break;
                 case 2 :
-                    // LogoAST.g:128:4: '<'
+                    // LogoAST.g:145:4: '<'
                     {
                     match('<'); 
 
                     }
                     break;
                 case 3 :
-                    // LogoAST.g:129:4: '>='
+                    // LogoAST.g:146:4: '>='
                     {
                     match(">="); 
 
@@ -327,7 +395,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // LogoAST.g:130:4: '<='
+                    // LogoAST.g:147:4: '<='
                     {
                     match("<="); 
 
@@ -335,7 +403,7 @@ public class LogoASTLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // LogoAST.g:131:4: '='
+                    // LogoAST.g:148:4: '='
                     {
                     match('='); 
 
@@ -356,7 +424,7 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = TERMOP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:133:8: ( '+' | '-' )
+            // LogoAST.g:150:8: ( '+' | '-' )
             // LogoAST.g:
             {
             if ( input.LA(1)=='+'||input.LA(1)=='-' ) {
@@ -384,7 +452,7 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = REFOP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:138:7: ( '\"' | ':' )
+            // LogoAST.g:155:7: ( '\"' | ':' )
             // LogoAST.g:
             {
             if ( input.LA(1)=='\"'||input.LA(1)==':' ) {
@@ -412,56 +480,21 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = FACTOROP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:142:9: ( '*' | '/' | 'modulo' )
-            int alt3=3;
-            switch ( input.LA(1) ) {
-            case '*':
-                {
-                alt3=1;
-                }
-                break;
-            case '/':
-                {
-                alt3=2;
-                }
-                break;
-            case 'm':
-                {
-                alt3=3;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 3, 0, input);
-
-                throw nvae;
-            }
-
-            switch (alt3) {
-                case 1 :
-                    // LogoAST.g:143:3: '*'
-                    {
-                    match('*'); 
-
-                    }
-                    break;
-                case 2 :
-                    // LogoAST.g:144:4: '/'
-                    {
-                    match('/'); 
-
-                    }
-                    break;
-                case 3 :
-                    // LogoAST.g:145:4: 'modulo'
-                    {
-                    match("modulo"); 
-
-
-                    }
-                    break;
+            // LogoAST.g:159:9: ( '*' | '/' )
+            // LogoAST.g:
+            {
+            if ( input.LA(1)=='*'||input.LA(1)=='/' ) {
+                input.consume();
 
             }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+
+            }
+
             state.type = _type;
             state.channel = _channel;
         }
@@ -475,30 +508,30 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:147:9: ( ';' ( . )* NEWLINE )
-            // LogoAST.g:148:9: ';' ( . )* NEWLINE
+            // LogoAST.g:163:9: ( ';' ( . )* NEWLINE )
+            // LogoAST.g:164:9: ';' ( . )* NEWLINE
             {
             match(';'); 
-            // LogoAST.g:148:13: ( . )*
-            loop4:
+            // LogoAST.g:164:13: ( . )*
+            loop3:
             do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
+                int alt3=2;
+                int LA3_0 = input.LA(1);
 
-                if ( (LA4_0=='\r') ) {
-                    alt4=2;
+                if ( (LA3_0=='\r') ) {
+                    alt3=2;
                 }
-                else if ( (LA4_0=='\n') ) {
-                    alt4=2;
+                else if ( (LA3_0=='\n') ) {
+                    alt3=2;
                 }
-                else if ( ((LA4_0>='\u0000' && LA4_0<='\t')||(LA4_0>='\u000B' && LA4_0<='\f')||(LA4_0>='\u000E' && LA4_0<='\uFFFF')) ) {
-                    alt4=1;
+                else if ( ((LA3_0>='\u0000' && LA3_0<='\t')||(LA3_0>='\u000B' && LA3_0<='\f')||(LA3_0>='\u000E' && LA3_0<='\uFFFF')) ) {
+                    alt3=1;
                 }
 
 
-                switch (alt4) {
+                switch (alt3) {
             	case 1 :
-            	    // LogoAST.g:148:13: .
+            	    // LogoAST.g:164:13: .
             	    {
             	    matchAny(); 
 
@@ -506,11 +539,12 @@ public class LogoASTLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop4;
+            	    break loop3;
                 }
             } while (true);
 
             mNEWLINE(); 
+             _channel = HIDDEN; 
 
             }
 
@@ -527,8 +561,8 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = WHILE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:150:7: ( 'while' )
-            // LogoAST.g:150:9: 'while'
+            // LogoAST.g:166:7: ( 'while' )
+            // LogoAST.g:166:9: 'while'
             {
             match("while"); 
 
@@ -548,8 +582,8 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = IF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:152:4: ( 'if' )
-            // LogoAST.g:152:6: 'if'
+            // LogoAST.g:168:4: ( 'if' )
+            // LogoAST.g:168:6: 'if'
             {
             match("if"); 
 
@@ -564,28 +598,49 @@ public class LogoASTLexer extends Lexer {
     }
     // $ANTLR end "IF"
 
+    // $ANTLR start "IFELSE"
+    public final void mIFELSE() throws RecognitionException {
+        try {
+            int _type = IFELSE;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // LogoAST.g:171:5: ( 'ifelse' )
+            // LogoAST.g:171:9: 'ifelse'
+            {
+            match("ifelse"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "IFELSE"
+
     // $ANTLR start "ID"
     public final void mID() throws RecognitionException {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:154:4: ( ( '_' )* LETTER ( LETTER | '_' | NUMBER )* )
-            // LogoAST.g:155:9: ( '_' )* LETTER ( LETTER | '_' | NUMBER )*
+            // LogoAST.g:173:4: ( ( '_' )* LETTER ( LETTER | '_' | NUMBER )* )
+            // LogoAST.g:174:9: ( '_' )* LETTER ( LETTER | '_' | NUMBER )*
             {
-            // LogoAST.g:155:9: ( '_' )*
-            loop5:
+            // LogoAST.g:174:9: ( '_' )*
+            loop4:
             do {
-                int alt5=2;
-                int LA5_0 = input.LA(1);
+                int alt4=2;
+                int LA4_0 = input.LA(1);
 
-                if ( (LA5_0=='_') ) {
-                    alt5=1;
+                if ( (LA4_0=='_') ) {
+                    alt4=1;
                 }
 
 
-                switch (alt5) {
+                switch (alt4) {
             	case 1 :
-            	    // LogoAST.g:155:11: '_'
+            	    // LogoAST.g:174:11: '_'
             	    {
             	    match('_'); 
 
@@ -593,15 +648,15 @@ public class LogoASTLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop5;
+            	    break loop4;
                 }
             } while (true);
 
             mLETTER(); 
-            // LogoAST.g:155:25: ( LETTER | '_' | NUMBER )*
-            loop6:
+            // LogoAST.g:174:25: ( LETTER | '_' | NUMBER )*
+            loop5:
             do {
-                int alt6=4;
+                int alt5=4;
                 switch ( input.LA(1) ) {
                 case 'A':
                 case 'B':
@@ -656,12 +711,12 @@ public class LogoASTLexer extends Lexer {
                 case 'y':
                 case 'z':
                     {
-                    alt6=1;
+                    alt5=1;
                     }
                     break;
                 case '_':
                     {
-                    alt6=2;
+                    alt5=2;
                     }
                     break;
                 case '0':
@@ -675,29 +730,29 @@ public class LogoASTLexer extends Lexer {
                 case '8':
                 case '9':
                     {
-                    alt6=3;
+                    alt5=3;
                     }
                     break;
 
                 }
 
-                switch (alt6) {
+                switch (alt5) {
             	case 1 :
-            	    // LogoAST.g:155:26: LETTER
+            	    // LogoAST.g:174:26: LETTER
             	    {
             	    mLETTER(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // LogoAST.g:155:35: '_'
+            	    // LogoAST.g:174:35: '_'
             	    {
             	    match('_'); 
 
             	    }
             	    break;
             	case 3 :
-            	    // LogoAST.g:155:41: NUMBER
+            	    // LogoAST.g:174:41: NUMBER
             	    {
             	    mNUMBER(); 
 
@@ -705,7 +760,7 @@ public class LogoASTLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop6;
+            	    break loop5;
                 }
             } while (true);
 
@@ -725,22 +780,22 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:157:12: ( ( '\\t' | ' ' )+ )
-            // LogoAST.g:158:9: ( '\\t' | ' ' )+
+            // LogoAST.g:176:12: ( ( '\\t' | ' ' )+ )
+            // LogoAST.g:177:9: ( '\\t' | ' ' )+
             {
-            // LogoAST.g:158:9: ( '\\t' | ' ' )+
-            int cnt7=0;
-            loop7:
+            // LogoAST.g:177:9: ( '\\t' | ' ' )+
+            int cnt6=0;
+            loop6:
             do {
-                int alt7=2;
-                int LA7_0 = input.LA(1);
+                int alt6=2;
+                int LA6_0 = input.LA(1);
 
-                if ( (LA7_0=='\t'||LA7_0==' ') ) {
-                    alt7=1;
+                if ( (LA6_0=='\t'||LA6_0==' ') ) {
+                    alt6=1;
                 }
 
 
-                switch (alt7) {
+                switch (alt6) {
             	case 1 :
             	    // LogoAST.g:
             	    {
@@ -758,12 +813,12 @@ public class LogoASTLexer extends Lexer {
             	    break;
 
             	default :
-            	    if ( cnt7 >= 1 ) break loop7;
+            	    if ( cnt6 >= 1 ) break loop6;
                         EarlyExitException eee =
-                            new EarlyExitException(7, input);
+                            new EarlyExitException(6, input);
                         throw eee;
                 }
-                cnt7++;
+                cnt6++;
             } while (true);
 
              _channel = HIDDEN; 
@@ -783,19 +838,19 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:161:9: ( ( '\\r' )? '\\n' )
-            // LogoAST.g:162:9: ( '\\r' )? '\\n'
+            // LogoAST.g:180:9: ( ( '\\r' )? '\\n' )
+            // LogoAST.g:181:9: ( '\\r' )? '\\n'
             {
-            // LogoAST.g:162:9: ( '\\r' )?
-            int alt8=2;
-            int LA8_0 = input.LA(1);
+            // LogoAST.g:181:9: ( '\\r' )?
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            if ( (LA8_0=='\r') ) {
-                alt8=1;
+            if ( (LA7_0=='\r') ) {
+                alt7=1;
             }
-            switch (alt8) {
+            switch (alt7) {
                 case 1 :
-                    // LogoAST.g:162:10: '\\r'
+                    // LogoAST.g:181:10: '\\r'
                     {
                     match('\r'); 
 
@@ -822,24 +877,24 @@ public class LogoASTLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // LogoAST.g:164:8: ( ( DIGIT )+ )
-            // LogoAST.g:165:9: ( DIGIT )+
+            // LogoAST.g:183:8: ( ( DIGIT )+ )
+            // LogoAST.g:184:9: ( DIGIT )+
             {
-            // LogoAST.g:165:9: ( DIGIT )+
-            int cnt9=0;
-            loop9:
+            // LogoAST.g:184:9: ( DIGIT )+
+            int cnt8=0;
+            loop8:
             do {
-                int alt9=2;
-                int LA9_0 = input.LA(1);
+                int alt8=2;
+                int LA8_0 = input.LA(1);
 
-                if ( ((LA9_0>='0' && LA9_0<='9')) ) {
-                    alt9=1;
+                if ( ((LA8_0>='0' && LA8_0<='9')) ) {
+                    alt8=1;
                 }
 
 
-                switch (alt9) {
+                switch (alt8) {
             	case 1 :
-            	    // LogoAST.g:165:10: DIGIT
+            	    // LogoAST.g:184:10: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -847,12 +902,12 @@ public class LogoASTLexer extends Lexer {
             	    break;
 
             	default :
-            	    if ( cnt9 >= 1 ) break loop9;
+            	    if ( cnt8 >= 1 ) break loop8;
                         EarlyExitException eee =
-                            new EarlyExitException(9, input);
+                            new EarlyExitException(8, input);
                         throw eee;
                 }
-                cnt9++;
+                cnt8++;
             } while (true);
 
 
@@ -869,8 +924,8 @@ public class LogoASTLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // LogoAST.g:167:16: ( '0' .. '9' )
-            // LogoAST.g:167:18: '0' .. '9'
+            // LogoAST.g:186:16: ( '0' .. '9' )
+            // LogoAST.g:186:18: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -883,117 +938,145 @@ public class LogoASTLexer extends Lexer {
     // $ANTLR end "DIGIT"
 
     public void mTokens() throws RecognitionException {
-        // LogoAST.g:1:8: ( T__20 | T__21 | T__22 | T__23 | COMMAND | COMPAREOP | TERMOP | REFOP | FACTOROP | COMMENT | WHILE | IF | ID | WHITESPACE | NEWLINE | NUMBER )
-        int alt10=16;
-        alt10 = dfa10.predict(input);
-        switch (alt10) {
+        // LogoAST.g:1:8: ( T__25 | T__26 | T__27 | T__28 | T__29 | COMMAND | UNARYOP | FUNC | COMPAREOP | TERMOP | REFOP | FACTOROP | COMMENT | WHILE | IF | IFELSE | ID | WHITESPACE | NEWLINE | NUMBER )
+        int alt9=20;
+        alt9 = dfa9.predict(input);
+        switch (alt9) {
             case 1 :
-                // LogoAST.g:1:10: T__20
+                // LogoAST.g:1:10: T__25
                 {
-                mT__20(); 
+                mT__25(); 
 
                 }
                 break;
             case 2 :
-                // LogoAST.g:1:16: T__21
+                // LogoAST.g:1:16: T__26
                 {
-                mT__21(); 
+                mT__26(); 
 
                 }
                 break;
             case 3 :
-                // LogoAST.g:1:22: T__22
+                // LogoAST.g:1:22: T__27
                 {
-                mT__22(); 
+                mT__27(); 
 
                 }
                 break;
             case 4 :
-                // LogoAST.g:1:28: T__23
+                // LogoAST.g:1:28: T__28
                 {
-                mT__23(); 
+                mT__28(); 
 
                 }
                 break;
             case 5 :
-                // LogoAST.g:1:34: COMMAND
+                // LogoAST.g:1:34: T__29
+                {
+                mT__29(); 
+
+                }
+                break;
+            case 6 :
+                // LogoAST.g:1:40: COMMAND
                 {
                 mCOMMAND(); 
 
                 }
                 break;
-            case 6 :
-                // LogoAST.g:1:42: COMPAREOP
+            case 7 :
+                // LogoAST.g:1:48: UNARYOP
+                {
+                mUNARYOP(); 
+
+                }
+                break;
+            case 8 :
+                // LogoAST.g:1:56: FUNC
+                {
+                mFUNC(); 
+
+                }
+                break;
+            case 9 :
+                // LogoAST.g:1:61: COMPAREOP
                 {
                 mCOMPAREOP(); 
 
                 }
                 break;
-            case 7 :
-                // LogoAST.g:1:52: TERMOP
+            case 10 :
+                // LogoAST.g:1:71: TERMOP
                 {
                 mTERMOP(); 
 
                 }
                 break;
-            case 8 :
-                // LogoAST.g:1:59: REFOP
+            case 11 :
+                // LogoAST.g:1:78: REFOP
                 {
                 mREFOP(); 
 
                 }
                 break;
-            case 9 :
-                // LogoAST.g:1:65: FACTOROP
+            case 12 :
+                // LogoAST.g:1:84: FACTOROP
                 {
                 mFACTOROP(); 
 
                 }
                 break;
-            case 10 :
-                // LogoAST.g:1:74: COMMENT
+            case 13 :
+                // LogoAST.g:1:93: COMMENT
                 {
                 mCOMMENT(); 
 
                 }
                 break;
-            case 11 :
-                // LogoAST.g:1:82: WHILE
+            case 14 :
+                // LogoAST.g:1:101: WHILE
                 {
                 mWHILE(); 
 
                 }
                 break;
-            case 12 :
-                // LogoAST.g:1:88: IF
+            case 15 :
+                // LogoAST.g:1:107: IF
                 {
                 mIF(); 
 
                 }
                 break;
-            case 13 :
-                // LogoAST.g:1:91: ID
+            case 16 :
+                // LogoAST.g:1:110: IFELSE
+                {
+                mIFELSE(); 
+
+                }
+                break;
+            case 17 :
+                // LogoAST.g:1:117: ID
                 {
                 mID(); 
 
                 }
                 break;
-            case 14 :
-                // LogoAST.g:1:94: WHITESPACE
+            case 18 :
+                // LogoAST.g:1:120: WHITESPACE
                 {
                 mWHITESPACE(); 
 
                 }
                 break;
-            case 15 :
-                // LogoAST.g:1:105: NEWLINE
+            case 19 :
+                // LogoAST.g:1:131: NEWLINE
                 {
                 mNEWLINE(); 
 
                 }
                 break;
-            case 16 :
-                // LogoAST.g:1:113: NUMBER
+            case 20 :
+                // LogoAST.g:1:139: NUMBER
                 {
                 mNUMBER(); 
 
@@ -1006,7 +1089,7 @@ public class LogoASTLexer extends Lexer {
 
 
     protected DFA1 dfa1 = new DFA1(this);
-    protected DFA10 dfa10 = new DFA10(this);
+    protected DFA9 dfa9 = new DFA9(this);
     static final String DFA1_eotS =
         "\21\uffff";
     static final String DFA1_eofS =
@@ -1071,73 +1154,72 @@ public class LogoASTLexer extends Lexer {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "108:1: COMMAND : ( 'print' | 'make' | 'forward' | 'penup' | 'pendown' | 'color' | 'right' | 'beginfill' | 'endfill' | 'goto' | 'circle' | 'left' );";
+            return "119:1: COMMAND : ( 'print' | 'make' | 'forward' | 'penup' | 'pendown' | 'color' | 'right' | 'beginfill' | 'endfill' | 'goto' | 'circle' | 'left' );";
         }
     }
-    static final String DFA10_eotS =
-        "\5\uffff\11\25\5\uffff\2\25\4\uffff\15\25\1\64\15\25\1\uffff\3\25"+
-        "\1\106\7\25\2\106\1\25\2\106\1\25\1\uffff\2\25\1\106\1\25\1\106"+
-        "\2\25\1\125\1\25\1\21\1\25\1\106\2\25\1\uffff\2\106\1\25\1\106\1"+
-        "\25\1\106";
-    static final String DFA10_eofS =
-        "\134\uffff";
-    static final String DFA10_minS =
-        "\1\11\4\uffff\1\145\1\141\1\157\2\151\1\145\1\156\1\157\1\145\5"+
-        "\uffff\1\150\1\146\4\uffff\1\151\1\156\1\153\1\144\1\162\1\154\1"+
-        "\162\2\147\1\144\1\164\1\146\1\151\1\60\1\156\1\144\1\145\1\165"+
-        "\1\167\1\157\1\143\1\150\1\151\1\146\1\157\1\164\1\154\1\uffff\1"+
-        "\164\1\160\1\157\1\60\1\154\1\141\1\162\1\154\1\164\1\156\1\151"+
-        "\2\60\1\145\2\60\1\167\1\uffff\1\157\1\162\1\60\1\145\1\60\1\146"+
-        "\1\154\1\60\1\156\1\60\1\144\1\60\1\151\1\154\1\uffff\2\60\1\154"+
-        "\1\60\1\154\1\60";
-    static final String DFA10_maxS =
-        "\1\172\4\uffff\1\162\3\157\1\151\1\145\1\156\1\157\1\145\5\uffff"+
-        "\1\150\1\146\4\uffff\1\151\1\156\1\153\1\144\1\162\1\154\1\162\2"+
-        "\147\1\144\1\164\1\146\1\151\1\172\1\156\1\165\1\145\1\165\1\167"+
-        "\1\157\1\143\1\150\1\151\1\146\1\157\1\164\1\154\1\uffff\1\164\1"+
-        "\160\1\157\1\172\1\154\1\141\1\162\1\154\1\164\1\156\1\151\2\172"+
-        "\1\145\2\172\1\167\1\uffff\1\157\1\162\1\172\1\145\1\172\1\146\1"+
-        "\154\1\172\1\156\1\172\1\144\1\172\1\151\1\154\1\uffff\2\172\1\154"+
-        "\1\172\1\154\1\172";
-    static final String DFA10_acceptS =
-        "\1\uffff\1\1\1\2\1\3\1\4\11\uffff\1\6\1\7\1\10\1\11\1\12\2\uffff"+
-        "\1\15\1\16\1\17\1\20\33\uffff\1\14\21\uffff\1\5\16\uffff\1\13\6"+
-        "\uffff";
-    static final String DFA10_specialS =
-        "\134\uffff}>";
-    static final String[] DFA10_transitionS = {
-            "\1\26\1\27\2\uffff\1\27\22\uffff\1\26\1\uffff\1\20\5\uffff\1"+
-            "\3\1\4\1\21\1\17\1\uffff\1\17\1\uffff\1\21\12\30\1\20\1\22\3"+
-            "\16\2\uffff\32\25\1\1\1\uffff\1\2\1\uffff\1\25\1\uffff\1\25"+
-            "\1\12\1\10\1\25\1\13\1\7\1\14\1\25\1\24\2\25\1\15\1\6\2\25\1"+
-            "\5\1\25\1\11\4\25\1\23\3\25",
+    static final String DFA9_eotS =
+        "\1\17\4\uffff\12\27\6\uffff\2\27\4\uffff\16\27\1\71\1\72\16\27\2"+
+        "\uffff\3\27\1\115\7\27\2\115\2\27\2\115\1\27\1\uffff\2\27\1\115"+
+        "\1\27\1\115\2\27\1\135\2\27\1\140\1\27\1\115\2\27\1\uffff\1\144"+
+        "\1\115\1\uffff\1\115\1\27\1\115\1\uffff\1\27\1\115";
+    static final String DFA9_eofS =
+        "\147\uffff";
+    static final String DFA9_minS =
+        "\1\11\4\uffff\1\157\1\145\1\141\1\157\2\151\1\145\1\156\1\157\1"+
+        "\145\6\uffff\1\150\1\146\4\uffff\1\164\1\151\1\156\1\153\1\144\1"+
+        "\162\1\154\1\162\2\147\1\144\1\164\1\146\1\151\2\60\1\156\1\144"+
+        "\1\145\1\165\1\167\1\157\1\143\1\150\1\151\1\146\1\157\1\164\2\154"+
+        "\2\uffff\1\164\1\160\1\157\1\60\1\154\1\141\1\162\1\154\1\164\1"+
+        "\156\1\151\2\60\1\145\1\163\2\60\1\167\1\uffff\1\157\1\162\1\60"+
+        "\1\145\1\60\1\146\1\154\1\60\1\145\1\156\1\60\1\144\1\60\1\151\1"+
+        "\154\1\uffff\2\60\1\uffff\1\60\1\154\1\60\1\uffff\1\154\1\60";
+    static final String DFA9_maxS =
+        "\1\172\4\uffff\1\157\1\162\3\157\1\151\1\145\1\156\1\157\1\145\6"+
+        "\uffff\1\150\1\146\4\uffff\1\164\1\151\1\156\1\153\1\144\1\162\1"+
+        "\154\1\162\2\147\1\144\1\164\1\146\1\151\2\172\1\156\1\165\1\145"+
+        "\1\165\1\167\1\157\1\143\1\150\1\151\1\146\1\157\1\164\2\154\2\uffff"+
+        "\1\164\1\160\1\157\1\172\1\154\1\141\1\162\1\154\1\164\1\156\1\151"+
+        "\2\172\1\145\1\163\2\172\1\167\1\uffff\1\157\1\162\1\172\1\145\1"+
+        "\172\1\146\1\154\1\172\1\145\1\156\1\172\1\144\1\172\1\151\1\154"+
+        "\1\uffff\2\172\1\uffff\1\172\1\154\1\172\1\uffff\1\154\1\172";
+    static final String DFA9_acceptS =
+        "\1\uffff\1\1\1\2\1\3\1\4\12\uffff\1\7\1\11\1\12\1\13\1\14\1\15\2"+
+        "\uffff\1\21\1\22\1\23\1\24\36\uffff\1\17\1\5\22\uffff\1\6\17\uffff"+
+        "\1\16\2\uffff\1\10\3\uffff\1\20\2\uffff";
+    static final String DFA9_specialS =
+        "\147\uffff}>";
+    static final String[] DFA9_transitionS = {
+            "\1\30\1\31\2\uffff\1\31\22\uffff\1\30\1\uffff\1\22\5\uffff\1"+
+            "\3\1\4\1\23\1\21\1\uffff\1\21\1\uffff\1\23\12\32\1\22\1\24\3"+
+            "\20\2\uffff\32\27\1\1\1\uffff\1\2\1\uffff\1\27\1\uffff\1\27"+
+            "\1\13\1\11\1\27\1\14\1\10\1\15\1\27\1\26\2\27\1\16\1\7\1\5\1"+
+            "\27\1\6\1\27\1\12\4\27\1\25\3\27",
             "",
             "",
             "",
             "",
-            "\1\32\14\uffff\1\31",
-            "\1\33\15\uffff\1\34",
-            "\1\35",
-            "\1\37\5\uffff\1\36",
+            "\1\33",
+            "\1\35\14\uffff\1\34",
+            "\1\36\15\uffff\1\37",
             "\1\40",
-            "\1\41",
-            "\1\42",
+            "\1\42\5\uffff\1\41",
             "\1\43",
             "\1\44",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\45",
             "\1\46",
-            "",
-            "",
-            "",
-            "",
             "\1\47",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\50",
             "\1\51",
+            "",
+            "",
+            "",
+            "",
             "\1\52",
             "\1\53",
             "\1\54",
@@ -1148,93 +1230,105 @@ public class LogoASTLexer extends Lexer {
             "\1\61",
             "\1\62",
             "\1\63",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\1\64",
             "\1\65",
-            "\1\67\20\uffff\1\66",
-            "\1\70",
-            "\1\71",
-            "\1\72",
+            "\1\66",
+            "\1\67",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\4\27\1\70\25\27",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
             "\1\73",
-            "\1\74",
-            "\1\75",
+            "\1\75\20\uffff\1\74",
             "\1\76",
             "\1\77",
             "\1\100",
             "\1\101",
             "\1\102",
-            "",
             "\1\103",
             "\1\104",
             "\1\105",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\1\106",
             "\1\107",
             "\1\110",
             "\1\111",
+            "",
+            "",
             "\1\112",
             "\1\113",
             "\1\114",
-            "\1\115",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
             "\1\116",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
             "\1\117",
-            "",
             "\1\120",
             "\1\121",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
             "\1\122",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
             "\1\123",
             "\1\124",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\1\125",
             "\1\126",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
             "\1\127",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "",
             "\1\130",
             "\1\131",
-            "",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
             "\1\132",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
             "\1\133",
-            "\12\25\7\uffff\32\25\4\uffff\1\25\1\uffff\32\25"
+            "\1\134",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\1\136",
+            "\1\137",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\1\141",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\1\142",
+            "\1\143",
+            "",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "\1\145",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
+            "",
+            "\1\146",
+            "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27"
     };
 
-    static final short[] DFA10_eot = DFA.unpackEncodedString(DFA10_eotS);
-    static final short[] DFA10_eof = DFA.unpackEncodedString(DFA10_eofS);
-    static final char[] DFA10_min = DFA.unpackEncodedStringToUnsignedChars(DFA10_minS);
-    static final char[] DFA10_max = DFA.unpackEncodedStringToUnsignedChars(DFA10_maxS);
-    static final short[] DFA10_accept = DFA.unpackEncodedString(DFA10_acceptS);
-    static final short[] DFA10_special = DFA.unpackEncodedString(DFA10_specialS);
-    static final short[][] DFA10_transition;
+    static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
+    static final short[] DFA9_eof = DFA.unpackEncodedString(DFA9_eofS);
+    static final char[] DFA9_min = DFA.unpackEncodedStringToUnsignedChars(DFA9_minS);
+    static final char[] DFA9_max = DFA.unpackEncodedStringToUnsignedChars(DFA9_maxS);
+    static final short[] DFA9_accept = DFA.unpackEncodedString(DFA9_acceptS);
+    static final short[] DFA9_special = DFA.unpackEncodedString(DFA9_specialS);
+    static final short[][] DFA9_transition;
 
     static {
-        int numStates = DFA10_transitionS.length;
-        DFA10_transition = new short[numStates][];
+        int numStates = DFA9_transitionS.length;
+        DFA9_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA10_transition[i] = DFA.unpackEncodedString(DFA10_transitionS[i]);
+            DFA9_transition[i] = DFA.unpackEncodedString(DFA9_transitionS[i]);
         }
     }
 
-    class DFA10 extends DFA {
+    class DFA9 extends DFA {
 
-        public DFA10(BaseRecognizer recognizer) {
+        public DFA9(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 10;
-            this.eot = DFA10_eot;
-            this.eof = DFA10_eof;
-            this.min = DFA10_min;
-            this.max = DFA10_max;
-            this.accept = DFA10_accept;
-            this.special = DFA10_special;
-            this.transition = DFA10_transition;
+            this.decisionNumber = 9;
+            this.eot = DFA9_eot;
+            this.eof = DFA9_eof;
+            this.min = DFA9_min;
+            this.max = DFA9_max;
+            this.accept = DFA9_accept;
+            this.special = DFA9_special;
+            this.transition = DFA9_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__20 | T__21 | T__22 | T__23 | COMMAND | COMPAREOP | TERMOP | REFOP | FACTOROP | COMMENT | WHILE | IF | ID | WHITESPACE | NEWLINE | NUMBER );";
+            return "1:1: Tokens : ( T__25 | T__26 | T__27 | T__28 | T__29 | COMMAND | UNARYOP | FUNC | COMPAREOP | TERMOP | REFOP | FACTOROP | COMMENT | WHILE | IF | IFELSE | ID | WHITESPACE | NEWLINE | NUMBER );";
         }
     }
  

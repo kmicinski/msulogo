@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class UnaryExpressionAST extends ExpressionAST
 {
     public enum UnaryOps {
-	Plus, Minus, Quote, Colon
+	Plus, Minus, Quote, Colon, Not
     }
     
     public static Map<String,UnaryOps> stringUnaryOpMap;
@@ -15,6 +15,8 @@ public class UnaryExpressionAST extends ExpressionAST
 	stringUnaryOpMap = new HashMap<String,UnaryOps>();
 	stringUnaryOpMap.put("\"", UnaryOps.Quote);
 	stringUnaryOpMap.put(":", UnaryOps.Colon);
+	stringUnaryOpMap.put("not", UnaryOps.Not);
+	stringUnaryOpMap.put("NOT", UnaryOps.Not);
     }
     
     private ExpressionAST operandAST;

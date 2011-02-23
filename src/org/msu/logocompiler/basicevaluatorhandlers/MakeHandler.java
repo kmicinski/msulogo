@@ -11,7 +11,7 @@ public class MakeHandler implements EvaluatorFunctionHandler {
 	public void evaluateFunction(FunCallExpressionAST function,
 			DeclarationDataEnvironment environment) {
 		if (function.getArguments().size() != 2) {
-			System.err.println("Error! You need two to ``make'' ;-) " + function.getStartToken());
+			System.err.println("Error! You need two to ``make'' " + function.getStartToken());
 			return;
 		}
 		

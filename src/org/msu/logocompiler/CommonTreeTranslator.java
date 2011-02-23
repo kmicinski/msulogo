@@ -41,18 +41,58 @@ public class CommonTreeTranslator {
 		return translateIfStatement(t);
 	    case LogoASTParser.WHILE:
 		return translateWhileStatement(t);
-	    case LogoASTParser.FUNCALL:
-		ExpressionAST funcall = translateFunCall(t);
+	    case LogoASTParser.FUNCALLSTMT:
+		CommonTree needed = (CommonTree)t.getChild(0);
+		doTheHackyCheck(needed);
+		ExpressionAST funcall = translateFunCall(needed);
 		ExpressionStatementAST funcallstmt = 
 		    new ExpressionStatementAST();
 		funcallstmt.setExpression(funcall);
 		return funcallstmt;
+	    case LogoASTParser.SEXPR:
+		return translateSExprStatement(t);
 	    default:
 		System.err.println("Bad node, could not translate statement");
 		return null;
 	    }
     }
+    
+    public void doTheHackyCheck(CommonTree t)
+    {
+	String funName = ((CommonTree)t.getChild(0)).getToken().getText();
+	
+	if (funName.equals("print") && t.getChildCount() != 2) {
+	    System.err.println("Bad node, ``print'' can't accept more than two arguments unless it's in an SExpr\n"
+			       + "   (for some unknown reason)");
+	}
+	
+	return;
+    }
+    
+    public StatementAST translateSExprStatement(CommonTree t)
+    {
+	ExpressionAST funcall = translateFunCall(t);
+	ExpressionStatementAST funcallstmt = 
+	    new ExpressionStatementAST();
+	funcallstmt.setExpression(funcall);
+	return funcallstmt;
 
+	/*SExprAST ast = new SExprAST();
+	
+	CommonTree identifier = (CommonTree)t.getChild(0);
+	
+	ast.setCarIdentifier(identifier.getToken().getText());
+	
+	for(int i = 1; i <= t.getChildCount(); i++) {
+	    CommonTree curTree = (CommonTree)t.getChild(i);
+	    ExpressionAST curExpr = translateExpression(curTree);
+	    
+	    ast.addExpression(curExpr);
+	}
+	
+	return ast;*/
+    }
+    
     public IfStmtAST translateIfStatement(CommonTree t)
     {
 	boolean hasElse = false;
@@ -76,7 +116,6 @@ public class CommonTreeTranslator {
 		
 	if (conditional != null && block != null 
 	    && (!hasElse || elseAST != null)) {
-	    // Handle an ``else'' block
 	    ifstmt.setConditional(conditional);
 	    ifstmt.setExecutionBlock(block);
 	    ifstmt.setElseBlock(elseAST);
@@ -163,12 +202,12 @@ public class CommonTreeTranslator {
 
 	UnaryExpressionAST.UnaryOps operator =
 	    UnaryExpressionAST.stringUnaryOpMap.get(t.getToken().getText());
-
+	
 	if (operator == null) {
 	    System.out.println("Error! Could not interpret unary operator "
 			       + t.getToken());
 	}
-
+	
 	unaryexpr.setOperator(operator);
 
 	ExpressionAST operand = translateExpression((CommonTree)t.getChild(0));

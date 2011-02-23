@@ -18,6 +18,8 @@ import org.msu.logocompiler.basicevaluatorhandlers.PenDownHandler;
 import org.msu.logocompiler.basicevaluatorhandlers.PenUpHandler;
 import org.msu.logocompiler.basicevaluatorhandlers.PrintHandler;
 import org.msu.logocompiler.basicevaluatorhandlers.RightHandler;
+import org.msu.logocompiler.basicevaluatorhandlers.ModuloHandler;
+import org.msu.logocompiler.basicevaluatorhandlers.NotHandler;
 
 public class EvaluatorVisitor implements ASTVisitor {
     private DeclarationDataEnvironment toplevelEnvironment;
@@ -67,6 +69,12 @@ public class EvaluatorVisitor implements ASTVisitor {
 	BasicTypeData penDownHandler = new BasicTypeData();
 	penDownHandler.setFunctionHandler(new PenDownHandler());
 	penDownHandler.setDataType(bt);
+	BasicTypeData moduloHandler = new BasicTypeData();
+	moduloHandler.setFunctionHandler(new ModuloHandler());
+	moduloHandler.setDataType(bt);
+	BasicTypeData notHandler = new BasicTypeData();
+	notHandler.setFunctionHandler(new NotHandler());
+	notHandler.setDataType(bt);
 
 	toplevelEnvironment.insertData("print", printHandler);
 	toplevelEnvironment.insertData("make", makeHandler);
@@ -80,6 +88,8 @@ public class EvaluatorVisitor implements ASTVisitor {
 	toplevelEnvironment.insertData("color", colorHandler);
 	toplevelEnvironment.insertData("penup", penUpHandler);
 	toplevelEnvironment.insertData("pendown", penDownHandler);
+	toplevelEnvironment.insertData("modulo", moduloHandler);
+	toplevelEnvironment.insertData("not", notHandler);
 	toplevelEnvironment.insertDeclaration("print", bt);
 	toplevelEnvironment.insertDeclaration("make", bt);
 	toplevelEnvironment.insertDeclaration("forward", bt);
@@ -92,7 +102,9 @@ public class EvaluatorVisitor implements ASTVisitor {
 	toplevelEnvironment.insertDeclaration("color", bt);
 	toplevelEnvironment.insertDeclaration("penup", bt);
 	toplevelEnvironment.insertDeclaration("pendown", bt);
-						
+	toplevelEnvironment.insertDeclaration("modulo",bt);
+	toplevelEnvironment.insertDeclaration("not",bt);
+	
 	toplevelEnvironment.setActiveTurtle(currentTurtle);
     }
 
@@ -192,15 +204,14 @@ public class EvaluatorVisitor implements ASTVisitor {
 
     private void handleEquals(BinaryExpressionAST ast) {
 	BasicType type = (BasicType)ast.getExpressionType();
+	BasicType t = new BasicType();
+	t.setBaseType(BaseTypes.Boolean);
 		
 	switch (type.getBaseType()) {
 	case Integer:
 	    {
 		BasicTypeData a = ast.getLeftExpression().getEvaluationResult();
 		BasicTypeData b = ast.getRightExpresssion().getEvaluationResult();
-			
-		BasicType t = new BasicType();
-		t.setBaseType(BaseTypes.Boolean);
 						
 		BasicTypeData c = new BasicTypeData();
 		c.setDataType(t);
@@ -212,9 +223,6 @@ public class EvaluatorVisitor implements ASTVisitor {
 	    {
 		BasicTypeData a = ast.getLeftExpression().getEvaluationResult();
 		BasicTypeData b = ast.getRightExpresssion().getEvaluationResult();
-			
-		BasicType t = new BasicType();
-		t.setBaseType(BaseTypes.Boolean);
 						
 		BasicTypeData c = new BasicTypeData();
 		c.setDataType(t);
@@ -226,10 +234,7 @@ public class EvaluatorVisitor implements ASTVisitor {
 	    {
 		BasicTypeData a = ast.getLeftExpression().getEvaluationResult();
 		BasicTypeData b = ast.getRightExpresssion().getEvaluationResult();
-			
-		BasicType t = new BasicType();
-		t.setBaseType(BaseTypes.Boolean);
-						
+		
 		BasicTypeData c = new BasicTypeData();
 		c.setDataType(t);
 		c.setBoolData(a.getBoolData() == b.getBoolData());
@@ -239,6 +244,8 @@ public class EvaluatorVisitor implements ASTVisitor {
 	default:
 	    System.err.println("Cannot apply = operator to item of type" + type);
 	}
+	
+	ast.setExpressionType(t);
 	return;
     }
 

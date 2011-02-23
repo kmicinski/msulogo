@@ -7,7 +7,13 @@ options {
 
 tokens {
     FUNCALL;
+    FUNCALLSTMT;
     BLOCK;
+    SEXPR;
+}
+
+@lexer::header{
+package org.msu.logocompiler;
 }
 
 @header {
@@ -66,20 +72,25 @@ block:
 statement:
         WHILE '[' expression ']' '[' statement+ ']' -> ^(WHILE expression ^(BLOCK statement+))
     |	IF expression '[' statement+ ']' -> ^(IF expression ^(BLOCK statement+))
-    |   IFELSE expression '[' ifblock=statement+ ']' '[' elseblock=statement+ ']' -> (^IF ^(BLOCK $ifblock) ^(BLOCK $elseblock))
-    |	COMMAND expression* -> ^(FUNCALL COMMAND expression*);
-
+    |   IFELSE expression '[' ifblock=statement+ ']' '[' elseblock=statement+ ']' -> ^(IF expression ^(BLOCK $ifblock) ^(BLOCK $elseblock))
+    |	COMMAND expression+ -> ^(FUNCALLSTMT ^(FUNCALL COMMAND expression+))
+    |   '(' COMMAND expression+ ')' -> ^(SEXPR COMMAND expression+);
 
 expression
+	:	simpleexpr
+    |   'not' expression -> ^(FUNCALL 'not' expression)
+    |	'modulo' expr1=expression expr2=expression -> ^(FUNCALL 'modulo' $expr1 $expr2);
+	
+simpleexpr
 	:	term (COMPAREOP^ term)*;
 	
 term	:
 		factor (TERMOP^ factor)*;
 
 factor	:	
-		ref (FACTOROP^ ref)*;
+		unary (FACTOROP^ unary)*;
 		
-ref	:	
+unary	:	
 		REFOP atom  -> ^(REFOP atom)
 	|	atom;
 
@@ -87,7 +98,6 @@ atom	:
 		'('! expression ')'!
 	|	ID
 	|	NUMBER;
-	
         
 /*
 token_list: 
@@ -120,6 +130,12 @@ COMMAND	:
 	|   'circle'
 	|   'left';
 
+UNARYOP :
+        ;
+
+FUNC:
+        'modulo';
+
 fragment LETTER	:	
         	'a'..'z'
 	|	'A'..'Z';
@@ -142,16 +158,18 @@ REFOP	:
 
 FACTOROP:	
 		'*'
-	|	'/'
-	|	'modulo';
+	|	'/';
 		
 COMMENT	:
-        ';' .* NEWLINE;
+        ';' .* NEWLINE     { $channel = HIDDEN; };
 	
 WHILE	:	'while';
 
 IF	:	'if';
 		
+IFELSE
+    :   'ifelse';
+
 ID	:	
         ( '_' )* LETTER (LETTER | '_' | NUMBER)*;
 	
