@@ -23,6 +23,19 @@ public class TypeCheckerVisitor implements ASTVisitor {
 	// nothing...
     }
 
+    public void visit(FunctionDefinitionAST ast) {
+	// nothing...
+    }
+
+    public void visit(IntegerAtomExpressionAST ast) {
+	// nothing...
+    }
+    
+    public void visit(DecimalAtomExpressionAST ast) {
+	// nothing...
+    }
+
+
     public void visit(BinaryExpressionAST ast) {
 	// Make sure types are the same.
 	if (!ast.getLeftExpression().getExpressionType().
@@ -151,13 +164,10 @@ public class TypeCheckerVisitor implements ASTVisitor {
 	}
 		
     }
-    
-    // Type check numeric expressions
-    public void visit(NumberAtomExpressionAST ast) {
-	BasicType t = new BasicType();
-	t.setBaseType(Type.BaseTypes.Integer);
-	ast.setExpressionType(t);
-    }
-	
-	
+
+	@Override
+	public void visit(ToplevelAST ast) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -20,4 +20,15 @@ public class IfStmtAST extends StatementAST
     {
 	v.visit(this);
     }
+    
+    public IfStmtAST clone()
+    {
+    	IfStmtAST clone = new IfStmtAST();
+    	
+    	clone.setConditional(conditionalExpression.clone());
+    	clone.setElseBlock(elseBlock.clone());
+    	clone.setExecutionBlock(executionBlock.clone());	// 
+    	
+    	return clone;
+    }
 }

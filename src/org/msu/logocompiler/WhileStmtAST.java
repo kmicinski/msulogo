@@ -17,4 +17,14 @@ public class WhileStmtAST extends StatementAST
     {
     	visitor.visit(this);
     }
+    
+    public WhileStmtAST clone()
+    {
+    	WhileStmtAST clone = new WhileStmtAST();
+    	
+    	clone.setConditional(conditionalExpression.clone());
+    	clone.setExecutionBlock(executionBlock.clone());
+    	
+    	return clone; 
+    }
 }

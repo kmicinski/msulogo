@@ -12,13 +12,48 @@ import java.util.LinkedList;
  */
 
 public class CommonTreeTranslator {
+    public List<ToplevelAST> translateProgram(CommonTree t)
+    {
+	List<ToplevelAST> programContents = new
+	    LinkedList<ToplevelAST>();
+	
+	for (Object unit : t.getChildren()) {
+	    if (((CommonTree)unit).getType() == LogoAST2Parser.FUNCDEF) {
+		programContents.add(translateFunctionDefinition((CommonTree)unit));
+	    }
+	    else if (((CommonTree)unit).getType() == LogoAST2Parser.BLOCK) {
+		programContents.add(translateBlock((CommonTree)unit));
+	    }
+	}
+	
+	return programContents;
+    }
+    
+    public FunctionDefinitionAST translateFunctionDefinition(CommonTree t)
+    {
+	FunctionDefinitionAST func = new FunctionDefinitionAST();
+	String funcName = ((CommonTree)((CommonTree)t).getChild(0)).getToken().getText();
+	func.setFunctionName(funcName);
+	
+	CommonTree argList = (CommonTree)t.getChild(1);
+	
+	for (Object x : argList.getChildren()) {
+	    func.getFunctionParameters().add(((CommonTree)x).getToken().getText());
+	}
+	
+	CommonTree executionBlock = (CommonTree)t.getChild(2);
+	func.setFunctionBody(translateBlock(executionBlock));
+	
+	return func;
+    }
+    
     public BlockAST translateBlock(CommonTree t)
     {
 	BlockAST block = new BlockAST();
 
 	block.setStartToken(t.getToken());
 
-	if (t.getType() != LogoASTParser.BLOCK) {
+	if (t.getType() != LogoAST2Parser.BLOCK) {
 	    System.err.println("Bad node, could not enter block");
 	    return null;
 	}
@@ -37,62 +72,33 @@ public class CommonTreeTranslator {
     {
 	switch(t.getType())
 	    {
-	    case LogoASTParser.IF:
+	    case LogoAST2Parser.IF:
 		return translateIfStatement(t);
-	    case LogoASTParser.WHILE:
+	    case LogoAST2Parser.WHILE:
 		return translateWhileStatement(t);
-	    case LogoASTParser.FUNCALLSTMT:
-		CommonTree needed = (CommonTree)t.getChild(0);
-		doTheHackyCheck(needed);
-		ExpressionAST funcall = translateFunCall(needed);
-		ExpressionStatementAST funcallstmt = 
-		    new ExpressionStatementAST();
-		funcallstmt.setExpression(funcall);
-		return funcallstmt;
-	    case LogoASTParser.SEXPR:
-		return translateSExprStatement(t);
+	    case LogoAST2Parser.EXPRSTMT:
+		{
+		    ExpressionAST funcall = translateExpression((CommonTree)t.getChild(0));
+		    ExpressionStatementAST funcallstmt = 
+			new ExpressionStatementAST();
+		    funcallstmt.setExpression(funcall);
+		    return funcallstmt;
+		}
+	    case LogoAST2Parser.FUNCALL:
+		{
+		    CommonTree needed = (CommonTree)t.getChild(0);
+		    ExpressionAST funcall = translateExpression(t);
+		    ExpressionStatementAST funcallstmt = 
+			new ExpressionStatementAST();
+		    funcallstmt.setExpression(funcall);
+		    return funcallstmt;
+		}
 	    default:
 		System.err.println("Bad node, could not translate statement");
 		return null;
 	    }
     }
-    
-    public void doTheHackyCheck(CommonTree t)
-    {
-	String funName = ((CommonTree)t.getChild(0)).getToken().getText();
-	
-	if (funName.equals("print") && t.getChildCount() != 2) {
-	    System.err.println("Bad node, ``print'' can't accept more than two arguments unless it's in an SExpr\n"
-			       + "   (for some unknown reason)");
-	}
-	
-	return;
-    }
-    
-    public StatementAST translateSExprStatement(CommonTree t)
-    {
-	ExpressionAST funcall = translateFunCall(t);
-	ExpressionStatementAST funcallstmt = 
-	    new ExpressionStatementAST();
-	funcallstmt.setExpression(funcall);
-	return funcallstmt;
-
-	/*SExprAST ast = new SExprAST();
-	
-	CommonTree identifier = (CommonTree)t.getChild(0);
-	
-	ast.setCarIdentifier(identifier.getToken().getText());
-	
-	for(int i = 1; i <= t.getChildCount(); i++) {
-	    CommonTree curTree = (CommonTree)t.getChild(i);
-	    ExpressionAST curExpr = translateExpression(curTree);
-	    
-	    ast.addExpression(curExpr);
-	}
-	
-	return ast;*/
-    }
-    
+        
     public IfStmtAST translateIfStatement(CommonTree t)
     {
 	boolean hasElse = false;
@@ -151,24 +157,30 @@ public class CommonTreeTranslator {
     {
 	switch (t.getType())
 	    {
-	    case LogoASTParser.FUNCALL:
+	    case LogoAST2Parser.FUNCALL:
 		return translateFunCall(t);
-	    case LogoASTParser.TERMOP:
-	    case LogoASTParser.FACTOROP:
-	    case LogoASTParser.COMPAREOP:
+	    case LogoAST2Parser.TERMOP:
+	    case LogoAST2Parser.FACTOROP:
+	    case LogoAST2Parser.COMPAREOP:
 		return translateBinaryExpression(t);
-	    case LogoASTParser.REFOP:
+	    case LogoAST2Parser.QUOTE:
+	    case LogoAST2Parser.COLON:
 		return translateUnaryExpression(t);
-	    case LogoASTParser.ID:
+	    case LogoAST2Parser.ID:
 		IdentifierAtomExpressionAST identifier = 
 		    new IdentifierAtomExpressionAST(t.getToken().getText());
 		identifier.setStartToken(t.getToken());
 		return identifier;
-	    case LogoASTParser.NUMBER:
-		NumberAtomExpressionAST number =
-		    new NumberAtomExpressionAST(Integer.parseInt(t.getToken().getText()));
-		number.setStartToken(t.getToken());
-		return number;
+	    case LogoAST2Parser.INTCONST:
+		IntegerAtomExpressionAST integer =
+		    new IntegerAtomExpressionAST(Integer.parseInt(((CommonTree)t.getChild(0)).getToken().getText()));
+		integer.setStartToken(t.getToken());
+		return integer;
+	    case LogoAST2Parser.FLOATCONST:
+		DecimalAtomExpressionAST decimal =
+		    new DecimalAtomExpressionAST(Double.parseDouble(((CommonTree)t.getChild(0)).getToken().getText()));
+		decimal.setStartToken(t.getToken());
+		return decimal;
 	    default:
 		return null;
 	    }

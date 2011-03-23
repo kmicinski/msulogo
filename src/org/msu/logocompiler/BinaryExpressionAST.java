@@ -59,4 +59,18 @@ public class BinaryExpressionAST extends ExpressionAST
 		
 		v.visit(this);
 	}
+	
+	public BinaryExpressionAST clone()
+	{
+		BinaryExpressionAST clone = new BinaryExpressionAST();
+		
+		clone.setStartToken(getStartToken());
+		//clone.setEvaluationResult(data.clone());
+		clone.setOperator(operator);
+		clone.setLeftAST(leftExpressionAST.clone());
+		clone.setRightAST(rightExpressionAST.clone());
+		clone.setExpressionType(getExpressionType());
+		
+		return clone;
+	}
 }

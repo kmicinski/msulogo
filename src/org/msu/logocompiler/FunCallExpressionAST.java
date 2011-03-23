@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- *
+ * 
  */
 public class FunCallExpressionAST extends ExpressionAST
 {
@@ -27,11 +27,24 @@ public class FunCallExpressionAST extends ExpressionAST
 	funName = name;
     }
     
-	public void accept(ASTVisitor v) {
-		for (ExpressionAST argument : arguments) {
-			argument.accept(v);
-		}
-		
-		v.visit(this);
+    public void accept(ASTVisitor v) {
+	for (ExpressionAST argument : arguments) {
+	    argument.accept(v);
 	}
+		
+	v.visit(this);
+    }
+    
+    public FunCallExpressionAST clone()
+    {
+    	List<ExpressionAST> argList = new LinkedList<ExpressionAST>();
+    	
+    	for (ExpressionAST arg : arguments)
+    	{
+    		argList.add(arg.clone());
+    	}
+    	
+    	FunCallExpressionAST clone = new FunCallExpressionAST(funName, argList);
+    	return clone;
+    }
 }

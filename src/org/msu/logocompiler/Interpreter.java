@@ -23,21 +23,21 @@ public class Interpreter {
     public Object exec(CommonTree t)
     {
 	switch (t.getType()) {
-	case LogoASTParser.WHILE:
+	case LogoAST2Parser.WHILE:
 	    // return handleWhile(t);
 	    break;
-	case LogoASTParser.IF:
+	case LogoAST2Parser.IF:
 	    //  return handleIf(t);
 	    break;
-	case LogoASTParser.COMMAND:
+	case LogoAST2Parser.COMMAND:
 	    //	    return handleCommand(t);
 	    break;
-	case LogoASTParser.COMPAREOP:
-	case LogoASTParser.FACTOROP:
-	case LogoASTParser.REFOP:
-	case LogoASTParser.PAREN:
-	case LogoASTParser.ID:
-	case LogoASTParser.NUMBER:
+	case LogoAST2Parser.COMPAREOP:
+	case LogoAST2Parser.FACTOROP:
+	case LogoAST2Parser.REFOP:
+	case LogoAST2Parser.PAREN:
+	case LogoAST2Parser.ID:
+	case LogoAST2Parser.NUMBER:
 	    handleExpression(t);
 	    break;
 	}

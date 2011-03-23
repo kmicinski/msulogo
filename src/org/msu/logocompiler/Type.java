@@ -11,7 +11,8 @@ public abstract class Type
 	    Character,
 	    String,
 	    Function,
-	    Boolean
+	    Boolean,
+	    Void
     }
     
     private BaseTypes baseType;

@@ -20,8 +20,6 @@ public abstract class ToplevelAST {
     
     public Token getStartToken() { return startToken; }
     
-    public abstract void accept(ASTVisitor v);
-    
     /**
      * (Pretty?) Print the tree.
      */
@@ -29,5 +27,9 @@ public abstract class ToplevelAST {
     {
 	return;
     }
+    
+    public void accept(ASTVisitor v) {
+	v.visit(this);
+    }	
 }
 

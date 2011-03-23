@@ -16,4 +16,9 @@ public class IdentifierAtomExpressionAST extends AtomExpressionAST
 	public void accept(ASTVisitor v) {
 		v.visit(this);
 	}
+	
+	public IdentifierAtomExpressionAST clone()
+	{
+		return new IdentifierAtomExpressionAST(identifier);
+	}
 }

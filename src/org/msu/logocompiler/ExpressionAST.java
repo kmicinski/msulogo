@@ -16,4 +16,6 @@ public abstract class ExpressionAST extends ToplevelAST {
     
     public void setEvaluationResult(BasicTypeData data) { evaluationResult = data; }
     public BasicTypeData getEvaluationResult() { return evaluationResult; }
+    
+    public abstract ExpressionAST clone();
 }

@@ -25,8 +25,9 @@ public class PrintHandler implements EvaluatorFunctionHandler {
 		    case Boolean:
 			System.out.println(argument.getEvaluationResult().getBoolData());
 		    }
+		System.out.print(" ");
 	    }
-		
+	    
 	    System.out.println();
 	}
 }

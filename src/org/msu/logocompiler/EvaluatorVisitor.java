@@ -21,10 +21,14 @@ import org.msu.logocompiler.basicevaluatorhandlers.RightHandler;
 import org.msu.logocompiler.basicevaluatorhandlers.ModuloHandler;
 import org.msu.logocompiler.basicevaluatorhandlers.NotHandler;
 
+/*
+ * Visitor class to generate 
+ */
 public class EvaluatorVisitor implements ASTVisitor {
     private DeclarationDataEnvironment toplevelEnvironment;
+    private DeclarationDataEnvironment currentEnvironment;
     private Turtle currentTurtle;
-	
+    
     public EvaluatorVisitor(Turtle turtle)
     {
 	currentTurtle = turtle;
@@ -106,6 +110,8 @@ public class EvaluatorVisitor implements ASTVisitor {
 	toplevelEnvironment.insertDeclaration("not",bt);
 	
 	toplevelEnvironment.setActiveTurtle(currentTurtle);
+	
+	currentEnvironment = toplevelEnvironment;
     }
 
     public void visit(AtomExpressionAST ast) {
@@ -122,7 +128,7 @@ public class EvaluatorVisitor implements ASTVisitor {
 		
 	// Take the type of the left subtree, equally well right
 	Type t = ast.getLeftExpression().getExpressionType();
-		
+	
 	ast.setExpressionType(t);
 		
 	if (!(ast.getExpressionType() instanceof BasicType)) {
@@ -483,41 +489,73 @@ public class EvaluatorVisitor implements ASTVisitor {
     }
 	
     public void visit(FunCallExpressionAST ast) {
-	Type t = toplevelEnvironment.lookupDeclaration(ast.getFunName());
-	BasicTypeData data = toplevelEnvironment.lookupData(ast.getFunName());
+    // Perhaps this should be currentEnvironment, other wise we allow only toplevel
+    // function defintions.
+	Type t = currentEnvironment.lookupDeclaration(ast.getFunName());	// 
+	BasicTypeData data = currentEnvironment.lookupData(ast.getFunName());
 
 	if (t == null || data == null
 	    || t.getBaseType() != BaseTypes.Function) {
 	    System.err.println("Function " + ast.getFunName() + " is undefined!");
 	    return;
 	}
-		
-	//FunctionType function = (FunctionType)t;
-	/*
-	  if (ast.getArguments().size() != ((FunctionType)t).getNumArguments()) {
-	  System.err.println("Function " + ast.getFunName() + " given wrong number of arguments");
-	  return;
-	  }
-		
-	  Iterator<ExpressionAST> arga = ast.getArguments().iterator();
-	  Iterator<Type> argb = function.getArgumentTypes().iterator();
-		
-	  while (argb.hasNext()) {
-	  Type a = (arga.next().getExpressionType());
-	  Type b = argb.next();
-			
-	  if (!a.identicalType(b)) {
-	  System.err.println("Types of arguments for function " + ast.getFunName() + " do not agree.");
-	  return;
-	  }
-	  }
-		
-	  ast.setExpressionType(function.getReturnType());
-	*/
-		
+	
+	//First we look for an evaluator handler, if we don't 
+	// find one then we try to find a user defined function.
 	EvaluatorFunctionHandler handler = data.getFunctionHandlerData();
+ 	FunctionDefinitionAST definedFunction = null;
+ 	
+	if (handler == null) {
+		definedFunction = (FunctionDefinitionAST)data.getDefinedFunction().clone();				
+	}
+	
+    if (handler == null && definedFunction == null) {
+	System.err.println("Function " + ast.getFunName() + " is undefined properly!");
+	return;
+    }
+    
+	if (handler != null) {
+	    handler.evaluateFunction(ast, currentEnvironment);	// 
+	} else {	// 
+		DeclarationDataEnvironment functionClosure	// 
+	    	= new DeclarationDataEnvironment(currentEnvironment); //definedFunction.getCurrentClosure();
+	
+	
+		currentEnvironment = functionClosure;
+
+
+	Iterator<ExpressionAST> computedArgs = ast.getArguments().iterator();
+	
+	for (String var : definedFunction.getFunctionParameters())
+	{
+		if (!computedArgs.hasNext())
+		{
+			// Not enough parameters passed to the function
+			System.out.println("Function " + ast.getFunName() 
+					+ " does not have the proper number of parameters passed to it! (Expecting " 
+					+ definedFunction.getFunctionParameters().size() + " parameters).");
+		}
+		ExpressionAST computedArg = computedArgs.next();
+		functionClosure.insertData(var, computedArg.getEvaluationResult());
+		functionClosure.insertDeclaration(var, computedArg.getExpressionType());
+	}
 		
-	handler.evaluateFunction(ast, toplevelEnvironment);
+		// Actually execute the body of the function, to do this
+		// first make sure we have properly set up the scope properly
+		definedFunction.getFunctionBody().accept(this);
+				if (functionClosure.getReturnValue() == null) {
+		    // No return value, make it void
+		    BasicTypeData voidReturn = new BasicTypeData();
+		    BasicType voidType = new BasicType();
+		    voidType.setBaseType(BaseTypes.Void);
+		    voidReturn.setDataType(voidType);
+		    functionClosure.setReturnValue(voidReturn);
+		}
+		
+		currentEnvironment = functionClosure.getParentEnvironment();
+
+	}
+		return;
     }
 	
 	
@@ -561,7 +599,21 @@ public class EvaluatorVisitor implements ASTVisitor {
 	    }
 	}
     }
+    
+    // To do this, we simply insert it into the current scope.
+    public void visit(FunctionDefinitionAST ast) {
+	// Get the function name, and just stick it in the current environment!
+	BasicTypeData functionHolder = new BasicTypeData();
+	functionHolder.setDefinedFunction(ast);
+	BasicType type = new BasicType();
+	type.setBaseType(BaseTypes.Function);
 	
+	functionHolder.setDataType(type);
+	
+	currentEnvironment.insertData(ast.getFunctionName(),functionHolder);
+	currentEnvironment.insertDeclaration(ast.getFunctionName(), type);
+    }
+
     // Evalaute a unary expression
     public void visit(UnaryExpressionAST ast) {
 	switch (ast.getOperator()) {
@@ -586,8 +638,8 @@ public class EvaluatorVisitor implements ASTVisitor {
 		}
 			
 		String name = operand.getEvaluationResult().getStringData();
-		BasicTypeData data = toplevelEnvironment.lookupData(name);
-		Type anstype = toplevelEnvironment.lookupDeclaration(name);
+		BasicTypeData data = currentEnvironment.lookupData(name);
+		Type anstype = currentEnvironment.lookupDeclaration(name);	// 
 			
 		ast.setEvaluationResult(data);
 		ast.setExpressionType(anstype);
@@ -637,7 +689,7 @@ public class EvaluatorVisitor implements ASTVisitor {
     }
 	
     // A basic integer node
-    public void visit(NumberAtomExpressionAST ast) {
+    public void visit(IntegerAtomExpressionAST ast) {
 	BasicType t = new BasicType();
 	t.setBaseType(BaseTypes.Integer);
 	ast.setExpressionType(t);
@@ -646,4 +698,22 @@ public class EvaluatorVisitor implements ASTVisitor {
 	basicData.setIntData(ast.number);
 	ast.setEvaluationResult(basicData);
     }	
+
+    // A basic integer node
+    public void visit(DecimalAtomExpressionAST ast) {
+	BasicType t = new BasicType();
+	t.setBaseType(BaseTypes.Decimal);
+	ast.setExpressionType(t);
+	BasicTypeData basicData = new BasicTypeData();
+	basicData.setDataType(t);
+	basicData.setDoubleData(ast.number);
+	ast.setEvaluationResult(basicData);
+    }
+
+	@Override
+	public void visit(ToplevelAST ast) {
+		// TODO Auto-generated method stub
+		
+	}	
+
 }

@@ -3,7 +3,7 @@ package org.msu.logocompiler;
 public abstract class AtomExpressionAST extends ExpressionAST
 {
     public enum AtomType {
-	Identifier, Number
+	Identifier, Integer, Decimal
     }
         
     protected AtomType atomType;

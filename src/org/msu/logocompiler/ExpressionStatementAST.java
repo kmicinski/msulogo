@@ -9,4 +9,11 @@ public class ExpressionStatementAST extends StatementAST
 	public void accept(ASTVisitor v) {
 		expression.accept(v);
 	}
+	
+	public ExpressionStatementAST clone()
+	{
+		ExpressionStatementAST clone = new ExpressionStatementAST();
+		clone.setExpression(expression.clone());
+		return clone;
+	}
 }

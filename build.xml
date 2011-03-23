@@ -13,6 +13,21 @@
   <target name="clean">
     <delete dir="${build.dir}"/>
   </target>
+
+  <target name="jar" depends="compile">
+    <delete file="${build.dir}/interpreter.jar" />
+    <delete file="MANIFEST.MF" />
+    <manifest file="${build.dir}/MANIFEST.MF">
+      <attribute name="Built-By" value="${user.name}"/>
+      <attribute name="Main-Class" value="org.msu.logocompiler.InterpLogoAST2"/>
+    </manifest>
+    <jar destfile="${build.dir}/interpreter.jar"
+	 basedir="${build.dir}"
+	 manifest="${build.dir}/MANIFEST.MF">
+      <zipfileset includes="**/*.class" src="lib/antlr-3.3-complete.jar"/>
+      <zipfileset includes="**/*.class" src="lib/turtle.jar"/>
+    </jar>
+  </target>
   
   <target name="compile">
     <mkdir dir="${build.dir}"/>
