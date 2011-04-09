@@ -28,7 +28,7 @@ public class UnaryExpressionAST extends ExpressionAST
     public UnaryOps getOperator() { return operator; }
     public void setOperator(UnaryOps op) { operator = op; }
     
-    public void accept(ASTVisitor v) {
+    public void accept(ASTVisitor v) throws ReturnException {
 	// There's a bit of trick here, to support the interpreter, 
 	// we don't want to visit quoted expressions.
 	//if (operator != UnaryOps.Quote) {

@@ -3,10 +3,12 @@ package org.msu.logocompiler;
 public class IdentifierAtomExpressionAST extends AtomExpressionAST
 {
 	private String identifier;
-
+	
+	private boolean isAssigned;
+	
 	public void setIdentifier(String i) { identifier = i; }
 	public String getIdentifier() { return identifier; }
-
+	
 	public IdentifierAtomExpressionAST(String identifier)
 	{
 		atomType = AtomType.Identifier;
@@ -21,4 +23,7 @@ public class IdentifierAtomExpressionAST extends AtomExpressionAST
 	{
 		return new IdentifierAtomExpressionAST(identifier);
 	}
+	
+	public boolean getAssignedVariable() { return isAssigned; }
+	public void setAssignedVariable(boolean b) { isAssigned = b; }
 }

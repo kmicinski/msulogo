@@ -16,6 +16,9 @@ public class PrintHandler implements EvaluatorFunctionHandler {
 	    for (ExpressionAST argument : function.getArguments()) {
 		switch (argument.getExpressionType().getBaseType())
 		    {
+		case Decimal:
+			System.out.print(argument.getEvaluationResult().getDoubleData());
+			break;
 		    case Integer:
 			System.out.print(argument.getEvaluationResult().getIntData());
 			break;

@@ -8,7 +8,8 @@ public class DeclarationDataEnvironment extends DeclarationEnvironment {
 	private HashMap<String, BasicTypeData> environmentData;
 	private Turtle activeTurtle;
 	private DeclarationDataEnvironment parentDataEnvironment;
-	
+	private BasicTypeData functionReturnValue;
+		
 	public DeclarationDataEnvironment(DeclarationDataEnvironment parent) {
 		super(parent);
 		parentDataEnvironment = parent;
@@ -50,5 +51,15 @@ public class DeclarationDataEnvironment extends DeclarationEnvironment {
 
 	public Turtle getActiveTurtle() {
 		return activeTurtle;
+	}
+	
+	public BasicTypeData getFunctionReturnValue()
+	{
+		return functionReturnValue;
+	}
+	
+	public void setFunctionReturnValue(BasicTypeData data)
+	{
+		functionReturnValue = data;
 	}
 }

@@ -6,7 +6,7 @@ public class ExpressionStatementAST extends StatementAST
     
     public void setExpression(ExpressionAST ast) { expression = ast; }
     public ExpressionAST getExpression() { return expression; }
-	public void accept(ASTVisitor v) {
+	public void accept(ASTVisitor v) throws ReturnException {
 		expression.accept(v);
 	}
 	

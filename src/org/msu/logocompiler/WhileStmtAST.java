@@ -13,7 +13,7 @@ public class WhileStmtAST extends StatementAST
     public ExpressionAST getConditional() { return conditionalExpression; }
     public BlockAST getExecutionBlock() { return executionBlock; }
     
-    public void accept(ASTVisitor visitor) 
+    public void accept(ASTVisitor visitor) throws ReturnException 
     {
     	visitor.visit(this);
     }

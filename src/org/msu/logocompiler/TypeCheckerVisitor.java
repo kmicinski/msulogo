@@ -15,7 +15,12 @@ public class TypeCheckerVisitor implements ASTVisitor {
 	currentBlock = bast;
 	
 	for (StatementAST statement : currentBlock.getStatementList()) {
-	    statement.accept(this);
+	    try {
+			statement.accept(this);
+		} catch (ReturnException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
     }
     
@@ -110,7 +115,7 @@ public class TypeCheckerVisitor implements ASTVisitor {
 	ast.setExpressionType(t);		
     }
 
-    public void visit(IfStmtAST ast) {
+    public void visit(IfStmtAST ast) throws ReturnException {
 	ast.getConditional().accept(this);
 	/*BasicType bt = ast.getConditional().getExpressionType();
 	if (bt.getBaseType() != Type.BaseTypes.Boolean) {
@@ -150,7 +155,7 @@ public class TypeCheckerVisitor implements ASTVisitor {
     }
     
     // Type check ``while''
-    public void visit(WhileStmtAST ast) {
+    public void visit(WhileStmtAST ast) throws ReturnException {
 	ast.getConditional().accept(this);
 	
 	if (!(ast.getConditional().getExpressionType() instanceof BasicType)) {

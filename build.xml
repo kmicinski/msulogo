@@ -19,7 +19,7 @@
     <delete file="MANIFEST.MF" />
     <manifest file="${build.dir}/MANIFEST.MF">
       <attribute name="Built-By" value="${user.name}"/>
-      <attribute name="Main-Class" value="org.msu.logocompiler.InterpLogoAST2"/>
+      <attribute name="Main-Class" value="org.msu.logocompiler.InterpLogoTurtle"/>
     </manifest>
     <jar destfile="${build.dir}/interpreter.jar"
 	 basedir="${build.dir}"

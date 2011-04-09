@@ -21,7 +21,7 @@ public class ColorHandler implements EvaluatorFunctionHandler {
 						+ function.getStartToken());
 				return;
 			}
-			args[i] = function.getArguments().get(0).getEvaluationResult().
+			args[i] = function.getArguments().get(i).getEvaluationResult().
 				getIntData();
 		}
 		

@@ -16,7 +16,7 @@ public class IfStmtAST extends StatementAST
     public BlockAST getExecutionBlock() { return executionBlock; }
     public BlockAST getElseBlock() { return elseBlock; }
     
-    public void accept(ASTVisitor v)
+    public void accept(ASTVisitor v) throws ReturnException
     {
 	v.visit(this);
     }

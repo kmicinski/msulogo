@@ -53,7 +53,7 @@ public class BinaryExpressionAST extends ExpressionAST
 	public ExpressionAST getRightExpresssion() { return rightExpressionAST; }
 	public BinOps getOperator() { return operator; }
 	
-	public void accept(ASTVisitor v) {
+	public void accept(ASTVisitor v) throws ReturnException {
 		leftExpressionAST.accept(v);
 		rightExpressionAST.accept(v);
 		
