@@ -30,12 +30,10 @@ public class BlockAST extends ToplevelAST
 	}
 
 	public void accept(ASTVisitor v) throws ReturnException {
-		v.visit(this);
-
 		for (StatementAST i : statementList) {
 			i.accept(v);
 		}
-
+		v.visit(this);
 	}
 
 	public BlockAST clone()

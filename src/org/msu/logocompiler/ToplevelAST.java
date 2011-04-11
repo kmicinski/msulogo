@@ -19,31 +19,31 @@ import org.antlr.runtime.*;
 public abstract class ToplevelAST {
     private Token startToken;
     
-    private List<TurtleICodeInstruction> instructionList;
+    private List<TurtleICodeNonbranchingInstruction> instructionList;
     
-    public List<TurtleICodeInstruction> getInstructionList()
+    public List<TurtleICodeNonbranchingInstruction> getInstructionList()
     {
     	return instructionList;
     }
     
-    public void setInstructionList(List<TurtleICodeInstruction> list)
+    public void setInstructionList(List<TurtleICodeNonbranchingInstruction> list)
     { 
     	instructionList = list;
     }
     
-    public List<TurtleICodeInstruction> getGeneratedInstructionList()
+    public List<TurtleICodeNonbranchingInstruction> getGeneratedInstructionList()
     {
     	return instructionList;
     }
     
-    public void addGeneratedInstruction(TurtleICodeInstruction instr)
+    public void addGeneratedInstruction(TurtleICodeNonbranchingInstruction instr)
     {
     	instructionList.add(instr);
     }
     
     public ToplevelAST()
     {
-    	instructionList = new LinkedList<TurtleICodeInstruction>();
+    	instructionList = new LinkedList<TurtleICodeNonbranchingInstruction>();
     }
     
     public void setStartToken(Token t) { startToken = t; }

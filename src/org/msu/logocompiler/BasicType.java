@@ -10,6 +10,7 @@ public class BasicType extends Type
 	public static final BasicType BasicDecimal;
 	public static final BasicType BasicString;
 	public static final BasicType BasicBoolean;
+	public static final BasicType BasicVoid;
 	
 	static {
 		BasicInteger = new BasicType();
@@ -20,6 +21,8 @@ public class BasicType extends Type
 		BasicString.setBaseType(BaseTypes.String);
 		BasicBoolean = new BasicType();
 		BasicBoolean.setBaseType(BaseTypes.Boolean);
+		BasicVoid = new BasicType();
+		BasicVoid.setBaseType(BaseTypes.Void);
 	}
 	
 	public boolean identicalType(Type t)
