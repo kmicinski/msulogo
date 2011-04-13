@@ -1,0 +1,63 @@
+;;
+;; Pretty_Checkerboard.logo
+;; 
+;; Copyright 2011 -- Kristopher Micinski
+;; 
+;; An inappropriate use of the turtle graphics library...
+;; 
+;; 3:48 am -- Kris: ``Jon! I feel like we could get lighting effects in here!''
+;; 	      Jon: ``I feel like that would be... ''
+;;            Kris: ``Pushing the capabilities of the turtle graphics library?''
+;;            Jon: ``Pushing the *point* of the turtle graphics library...''
+
+;; Draws a square of length pixels at the current position on the screen.
+to square (:length)
+	beginfill
+	fd :length
+	left 90
+	fd :length
+	left 90
+	fd :length
+	left 90
+	fd :length
+	left 90
+	endfill
+end
+
+;; Draws a checkerboard at the 
+to checkerboard (:squares)
+	make "alternate 0
+	make "j 0
+	while [:j < :squares]
+	[
+		make "k 0
+		while [:k < :squares ]
+		[
+			make "alternate :alternate + 1
+			ifelse modulo (:alternate 2) = 1 [ 
+				setpencolor [ modulo(12*:j+:k+20 255) modulo(:k+:j*18+20 255) modulo(16*:j+:k+20 255) ]
+				] [
+				setpencolor [ modulo(16*:j+:k+20 255) modulo(:k+20 255) modulo(12*:k+:j+20 255) ]
+				]
+			pendown
+			square (100)
+			penup
+			right 90
+			forward 100
+			left 90
+			make "k :k + 1
+			(print "done :k)
+			
+		]
+		back 100
+		left 90
+		forward 100 * :squares
+		right 90
+		(print "donej :j)
+		make "j :j + 1
+	]
+	print "AllDone!
+end
+
+checkerboard (121)
+

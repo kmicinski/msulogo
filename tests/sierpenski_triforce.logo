@@ -1,0 +1,37 @@
+;;
+;; sierpenski_triforce.logo
+;;
+
+; example call sier 200 6
+to sier (:l :d)
+   ifelse :d = 0 [pendown circle 10 360 penup] [
+                fd :l
+		sier (:l/2 :d-1)
+		bk :l
+                left 120
+                fd :l
+		sier (:l/2 :d-1)
+                bk :l
+                left 120
+                fd :l
+                sier (:l/2 :d-1)
+                bk :l
+                left 120]
+end
+
+to square ()
+	make "k 0
+	while [:k < 4] [fd 50 left 90 make "k :k + 1]
+end
+
+to flower ()
+	make "k 0
+	while [:k < 36] [square() lt 10 make "k :k + 1]
+end
+
+penup
+sier (200 5)
+pendown
+flower ()
+
+

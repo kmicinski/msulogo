@@ -1,0 +1,7 @@
+;; Fibonacci testcase...
+to factorial (:n)
+   ifelse :n = 1 [output 1] [output :n * factorial (:n - 1)]
+end
+
+print factorial (8)
+
