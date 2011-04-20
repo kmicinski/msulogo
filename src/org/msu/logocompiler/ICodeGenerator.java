@@ -7,8 +7,6 @@ import org.msu.logocompiler.TurtleICodeBlock.BlockContainsTerminatingInstruction
 import org.msu.logocompiler.TurtleICodeJVMHack.Hacks;
 import org.msu.logocompiler.Type.BaseTypes;
 
-import sun.reflect.generics.tree.BaseType;
-
 /*
  * A class to generate intermediate code from an AST.
  */
@@ -264,16 +262,66 @@ public class ICodeGenerator implements ASTVisitor {
 				System.err.println("Error! Trying to ``make'' a non variable! " + ast.getStartToken());
 				return;
 			}
+		} else if (ast.getFunName().equals("print")) {
+			if (ast.getArguments().size() != 1) {
+				System.err.println("Sorry... I only did ``print'' for one this time...");
+				return;
+			}
+			
+			TurtleICodePrint instr = new TurtleICodePrint();
+			instr.setType(ast.getArguments().get(0).getExpressionType().getBaseType());
+			List<TurtleICodeNonbranchingInstruction> code = 
+				ast.getArguments().get(0).getGeneratedInstructionList();
+			code.add(instr);
+			List<TurtleICodeNonbranchingInstruction> codex =
+				new LinkedList<TurtleICodeNonbranchingInstruction>();
+			TurtleICodeJVMHack hack = new TurtleICodeJVMHack();
+			hack.setHack(Hacks.Print);
+			codex.add(hack);
+			codex.addAll(code);
+			ast.setInstructionList(codex);
+			
 		} else if (ast.getFunName().equals("pendown")) {
 			handleTurtleFunctionCall(ast, "pendown", 0);
 		} else if (ast.getFunName().equals("pd")) {
 			handleTurtleFunctionCall(ast, "pendown", 0);
+		} else if (ast.getFunName().equals("penup")) {
+			handleTurtleFunctionCall(ast, "penup", 0);
+		} else if (ast.getFunName().equals("pu")) {
+			handleTurtleFunctionCall(ast, "penup", 0);
 		} else if (ast.getFunName().equals("forward")) {
 			handleTurtleFunctionCall(ast, "forward", 1);
 		} else if (ast.getFunName().equals("fd")) {
 			handleTurtleFunctionCall(ast, "forward", 1);
+		} else if (ast.getFunName().equals("back")) {
+			handleTurtleFunctionCall(ast, "back", 1);
+		} else if (ast.getFunName().equals("bk")) {
+			handleTurtleFunctionCall(ast, "back", 1);
+		} else if (ast.getFunName().equals("left")) {
+			handleTurtleFunctionCall(ast, "left", 1);
+		} else if (ast.getFunName().equals("lt")) {
+			handleTurtleFunctionCall(ast, "right", 1);
+		} else if (ast.getFunName().equals("right")) {
+			handleTurtleFunctionCall(ast, "right", 1);
+		} else if (ast.getFunName().equals("rt")) {
+			handleTurtleFunctionCall(ast, "right", 1);
+		} else if (ast.getFunName().equals("setheading")) {
+			handleTurtleFunctionCall(ast, "setheading", 1);
+		} else if (ast.getFunName().equals("seth")) {
+			handleTurtleFunctionCall(ast, "setheading", 1);
+		} else if (ast.getFunName().equals("setpos")) {
+			handleTurtleFunctionCall(ast, "setpos", 2);
+		} else if (ast.getFunName().equals("circle")) {
+			handleTurtleFunctionCall(ast, "circle", 2);
+		} else if (ast.getFunName().equals("setpencolor")) {
+			handleTurtleFunctionCall(ast, "setpencolor", 3);	
+		} else if (ast.getFunName().equals("beginfill")) {
+			handleTurtleFunctionCall(ast, "beginfill", 0);	
+		} else if (ast.getFunName().equals("endfill")) {
+			handleTurtleFunctionCall(ast, "endfill", 0);
 		}
-	}
+
+}
 	
 	public void handleTurtleFunctionCall(FunCallExpressionAST ast, String expectedName, int expectedArguments)
 	{
@@ -297,16 +345,18 @@ public class ICodeGenerator implements ASTVisitor {
 		TurtleICodeTurtleFunction instr = new TurtleICodeTurtleFunction();
 		TurtleICodeJVMHack hack = new TurtleICodeJVMHack();
 		hack.setHack(Hacks.TurtleFunction);
+		instrList.add(hack);
 		
 		for (ExpressionAST i : ast.getArguments())
 		{
-			instrList.add(hack);
 			instrList.addAll(i.getGeneratedInstructionList());
 			instr.addArgument(i.getResultLocation());
 		}
 		
 		instrList.add(instr);
 		ast.setExpressionType(BasicType.BasicVoid);
+		ast.setInstructionList(instrList);
+		instr.setName(expectedName);
 		
 		return;
 	}
@@ -325,6 +375,22 @@ public class ICodeGenerator implements ASTVisitor {
 	 * Evaluate an identifier, what should we do in this instance? 	
 	 */
 	public void visit(IdentifierAtomExpressionAST ast) {
+		if (ast.getIsQuoted())
+		{
+			TemporaryVariableLocation loc = currentFunction.newTemporaryVariable();
+			loc.setLocationType(BasicType.BasicString);
+			List<TurtleICodeNonbranchingInstruction> instrList = new LinkedList<TurtleICodeNonbranchingInstruction>();
+			TurtleICodeLoadConstant load = new TurtleICodeLoadConstant();
+			BasicTypeData data = new BasicTypeData();
+			data.setStringData(ast.getIdentifier());
+			data.setDataType(BasicType.BasicString);
+			load.setData(data);
+			instrList.add(load);
+			ast.setInstructionList(instrList);
+			ast.setResultLocation(loc);
+			ast.setExpressionType(BasicType.BasicString);
+			return;
+		}
 		if (currentFunction.getLocalVariable(ast.getIdentifier()) == null)
 		{
 			if (ast.getAssignedVariable())
@@ -333,6 +399,7 @@ public class ICodeGenerator implements ASTVisitor {
 				ret.setStringData(ast.getIdentifier());
 				ret.setDataType(BasicType.BasicString);
 				ast.setEvaluationResult(ret);
+				
 				return;
 			}
 			else
@@ -389,6 +456,7 @@ public class ICodeGenerator implements ASTVisitor {
 	public void visit(UnaryExpressionAST ast) {
 		TurtleICodeUnaryInstruction instr = new TurtleICodeUnaryInstruction();
 		TemporaryVariableLocation newLoc = currentFunction.newTemporaryVariable();
+		newLoc.setLocationType(ast.getOperand().getExpressionType());
 		instr.setOperandLocation(ast.getOperand().getResultLocation());
 		instr.setOperation(ast.getOperator());
 		instr.setResult(newLoc);

@@ -13,6 +13,7 @@ import java.util.LinkedList;
 
 public class CommonTreeTranslator {
 	boolean inMake = false;
+	boolean inQuote = false;
 	
 	public List<ToplevelAST> translateProgram(CommonTree t)
 	{
@@ -170,6 +171,13 @@ public class CommonTreeTranslator {
 		case LogoTurtleParser.COMPAREOP:
 			return translateBinaryExpression(t);
 		case LogoTurtleParser.QUOTE:
+		{
+			if (!inMake)
+				inQuote = true;
+			ExpressionAST ast = translateUnaryExpression(t); 
+			inQuote = false;
+			return ast;
+		}
 		case LogoTurtleParser.COLON:
 			return translateUnaryExpression(t);
 		case LogoTurtleParser.ID:
@@ -177,6 +185,7 @@ public class CommonTreeTranslator {
 				new IdentifierAtomExpressionAST(t.getToken().getText());
 			identifier.setStartToken(t.getToken());
 			identifier.setAssignedVariable(inMake);
+			identifier.setIsQuoted(inQuote);
 			return identifier;
 		case LogoTurtleParser.INTCONST:
 			IntegerAtomExpressionAST integer =
@@ -200,7 +209,7 @@ public class CommonTreeTranslator {
 		String funName = ((CommonTree)t.getChild(0)).getToken().getText();
 
 		for (int i = 1; i < t.getChildCount(); i++) {
-			if (i == 1)
+			if (i == 1 && funName.equals("make"))
 				inMake = true;
 			else
 				inMake = false;

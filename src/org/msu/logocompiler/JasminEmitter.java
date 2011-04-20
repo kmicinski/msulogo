@@ -6,8 +6,6 @@ import org.msu.logocompiler.BinaryExpressionAST.BinOps;
 import org.msu.logocompiler.TurtleICodeJVMHack.Hacks;
 import org.msu.logocompiler.Type.BaseTypes;
 
-import sun.rmi.runtime.Log;
-
 /**
  * A code generator for the Jasmin assembly language.
  * 
@@ -25,7 +23,7 @@ public class JasminEmitter implements TurtleICodeVisitor {
 	public JasminEmitter()
 	{
 		varNumToPositionMap = new HashMap<Integer,Integer>();
-		currentLocalsCounter = 1;
+		currentLocalsCounter = 3;
 	}
 	
 	static {
@@ -66,9 +64,32 @@ public class JasminEmitter implements TurtleICodeVisitor {
 		+ "\treturn\n"
 		+ ".end method\n"
 		+ "\n"
-		+ ".method public static main([Ljava/lang/String;)V\n"
+		+ ".method public static setHeading(Lmsu/cse/turtlegraphics/Turtle;I)V\n"
 		+ "\t.limit locals 10\n"
 		+ "\t.limit stack 10\n"
+		+ "\taload_0\n"
+		+ "\tiload_1\n"
+		+ "\ti2d\n"
+		+ "\tinvokevirtual msu/cse/turtlegraphics/Turtle/turtleSetHeading(D)V\n"
+		+ "\treturn\n"
+		+ ".end method\n"
+		+ "\n"
+		+ ".method public static setPoint(Lmsu/cse/turtlegraphics/Turtle;II)V\n"
+		+ "\t.limit locals 10\n"
+		+ "\t.limit stack 10\n"
+		+ "\taload_0\n"
+		+ "\tnew java/awt/Point\n"
+		+ "\tdup\n"
+		+ "\tiload_1\n"
+		+ "\tiload_2\n"
+		+ "\tinvokespecial java/awt/Point/<init>(II)V\n"
+		+ "\tinvokevirtual msu/cse/turtlegraphics/Turtle/turtleGoto(Ljava/awt/Point;)V\n"
+		+ "\treturn\n"
+		+ ".end method\n"
+		+ "\n"
+		+ ".method public static main([Ljava/lang/String;)V\n"
+		+ "\t.limit locals 100\n"
+		+ "\t.limit stack 100\n"
 		+ "\n"
 		+ "\tnew	msu/cse/turtlegraphics/Turtle\n"
 		+ "\tdup\n"
@@ -86,7 +107,7 @@ public class JasminEmitter implements TurtleICodeVisitor {
 		+ "\tinvokevirtual	msu/cse/turtlegraphics/TurtleDisplayFrame/getCurrentCanvas()Lmsu/cse/turtlegraphics/TurtleDisplayCanvas;\n"
 		+ "\tinvokevirtual	msu/cse/turtlegraphics/Turtle/setCurrentTurtleDisplayCanvas(Lmsu/cse/turtlegraphics/TurtleDisplayCanvas;)V\n";
 		
-		buffer += beginning;
+		buffer = beginning;
 	}
 	
 	public void emitEnd()
@@ -132,9 +153,47 @@ public class JasminEmitter implements TurtleICodeVisitor {
 			break;
 		}
 	}
-
+	
+	public void visit(TurtleICodePrint i) {
+		switch (i.getType()) {
+		case String:
+			emit("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
+			break;
+		case Integer:
+			emit("invokevirtual java/io/PrintStream/println(I)V");
+			break;
+		case Decimal:
+			emit("invokevirtual java/io/PrintStream/println(D)V");
+			break;
+		}
+	}
+	
 	public void visit(TurtleICodeTurtleFunction i) {
-		return;
+		if (i.getName().equals("circle")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleCircle(II)V");
+		} else if (i.getName().equals("forward")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleForward(I)V");
+		} else if (i.getName().equals("backward")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleBack(I)V");
+		} else if (i.getName().equals("left")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleLeft(I)V");
+		} else if (i.getName().equals("right")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleRight(I)V");
+		} else if (i.getName().equals("pendown")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtlePenDown()V");
+		} else if (i.getName().equals("penup")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtlePenUp()V");
+		} else if (i.getName().equals("setheading")) {
+			emit("invokestatic TurtleTestJasmin.setHeading(msu/cse/turtlegraphics/Turtle;I)V");
+		} else if (i.getName().equals("setpos")) {
+			emit("invokestatic TurtleTestJasmin.setPoint(msu/cse/turtlegraphics/Turtle;II)V");
+		} else if (i.getName().equals("beginfill")) {
+			emit("involevirtual msu/cse/turtlegraphics/Turtle/turtleBeginFillPolygon()V");
+		} else if (i.getName().equals("endfill")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleEndFillPolygon()V");
+		} else if (i.getName().equals("setpencolor")) {
+			emit("invokevirtual msu/cse/turtlegraphics/Turtle/turtleSetColor(III)V");
+		}
 	}
 
 	public void visit(TurtleICodeReturnInstruction i) {
@@ -147,10 +206,10 @@ public class JasminEmitter implements TurtleICodeVisitor {
 	
 	public void visit(TurtleICodeJVMHack hack) {
 		if (hack.getHack() == Hacks.Print) {
-			System.out.println("\tgetstatic java/lang/System/out Ljava/io/PrintStream;");
+			emit("getstatic java/lang/System/out Ljava/io/PrintStream;");
 		} else if (hack.getHack() == Hacks.TurtleFunction) {
-			System.out.println("\taload_1");
-		}
+			emit("aload_1");
+		} 
 	}
 	
 	public void visit(TurtleICodeLoadConstant i) {

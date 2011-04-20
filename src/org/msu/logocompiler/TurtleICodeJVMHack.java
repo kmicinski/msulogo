@@ -6,6 +6,8 @@ public class TurtleICodeJVMHack extends TurtleICodeNonbranchingInstruction {
 	public enum Hacks {
 		Print,
 		TurtleFunction,
+		SetHeading,
+		setPoint
 	}
 
 	public String generateJVMCode() {
@@ -18,5 +20,10 @@ public class TurtleICodeJVMHack extends TurtleICodeNonbranchingInstruction {
 		this.hack = hack;
 	}
 	
-	public Hacks getHack() { return hack; } 
+	public Hacks getHack() { return hack; }
+	
+	public void accept(TurtleICodeVisitor v)
+	{
+		v.visit(this);
+	}
 }

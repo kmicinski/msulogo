@@ -5,9 +5,12 @@ public class IdentifierAtomExpressionAST extends AtomExpressionAST
 	private String identifier;
 	
 	private boolean isAssigned;
+	private boolean isQuoted;
 	
 	public void setIdentifier(String i) { identifier = i; }
 	public String getIdentifier() { return identifier; }
+	public void setIsQuoted(boolean t) { isQuoted = t; }
+	public boolean getIsQuoted() { return isQuoted; }
 	
 	public IdentifierAtomExpressionAST(String identifier)
 	{

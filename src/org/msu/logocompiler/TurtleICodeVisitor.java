@@ -10,4 +10,6 @@ public interface TurtleICodeVisitor {
 	public void visit(TurtleICodeI2D i);
 	public void visit(TurtleICodeBinaryInstruction i);
 	public void visit(TurtleICodeAssignInstruction i);
+	public void visit(TurtleICodeJVMHack i);
+	public void visit(TurtleICodePrint i);
 }

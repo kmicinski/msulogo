@@ -1,3 +1,63 @@
+Project 5 --
+
+Hey there, I finished the next project (mostly probably...) for you
+guys.  I've done it slightly differently, using an intermediate form
+that was mostly homebrewed.  The code is translated to Turtle
+intermediate code and then ultimately dumped by a visitor that goes
+through the intermediate statements.  The translator to turn the ASTs
+into intermediate code is in ICodeGenerator, while the translator to
+Jasmin code is in JasminEmitter.  There are a few other hacks to put
+in the necessary calls to do things like loading objects for the
+virtual code.  I've just cheated (instead of doing analysis to find
+out the needed stack size and used locals and stack set to 100 in the
+dumped code.  Other than the code should mostly work,
+
+Oh, and this doesn't work
+
+make "k 234 make "j "k make :j 12 ;; Now "k" should be set to 12
+
+If you find anyone who gets that to work, have them come talk to me
+(Kris) because I'd be impressed at how they did it without using
+pointer aliasing analysis (that might be a nice excercise, but non in
+a dynamically typed language, and especially not when you need a
+runtime symbol table (which is what you need to make this work in the
+general case)).
+
+Other than that, you should be able to run the code on some examples.
+You should be able to do an "ant compile" and "ant jar" then go into
+the build/ directory and run the compiler as shown below.  The thing
+just prints the output to the screen and waits around (you can just
+kill it with a ^C I suppose...)
+
+I did the print stuff, and all of the turtle functions *should* be
+there, if you have any other questions I suppose I'm around.
+
+Have fun!  -- Kris and Team 9 (or whatever our team is.)
+
+P.s., umm...  Oh...., I talked to Austin about how we should handle
+the Point and double functions for the turtle library, but I did most
+of the coding on this one, helped by checking some of the test cases
+and pointing out what probably wouldn't work, I ran his test cases
+before submitting the project.
+
+kmicinski@kmicinski-desktop:~/projects/cse450/msulogo/build$ java -jar interpreter.jar >test.j
+print "Hello
+make "k 23 * 3 + 5
+make "d "Hello
+print :k
+print :d
+forward :k
+kmicinski@kmicinski-desktop:~/projects/cse450/msulogo/build$ nano test.j
+kmicinski@kmicinski-desktop:~/projects/cse450/msulogo/build$ java jasmin/Main test.j
+Generated: TurtleTestJasmin.class
+kmicinski@kmicinski-desktop:~/projects/cse450/msulogo/build$ java TurtleTestJasmin 
+Hello
+74
+Hello
+
+Thanks!
+Kris
+
 Project 4 --
 
 Mr. Horne,

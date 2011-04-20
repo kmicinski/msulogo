@@ -28,11 +28,11 @@ public class InterpLogoTurtle {
 	BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 	CommonTreeTranslator translator = new CommonTreeTranslator();
 	Turtle turtle = new Turtle();
-	TurtleDisplayFrame frame = new TurtleDisplayFrame();
+	/*TurtleDisplayFrame frame = new TurtleDisplayFrame();
 	frame.setVisible(true);
 	turtle.setCurrentTurtleDisplayCanvas(frame.getCurrentCanvas());
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+	*/
 	EvaluatorVisitor evaluator = new EvaluatorVisitor(turtle);
 	
 	turtle.setReanimateImmediate(false);
@@ -52,20 +52,18 @@ public class InterpLogoTurtle {
 	    }
 			
 	    System.out.println(input);
-		*/	
+		*/
 		int count = 0;
 		String input = "";
-		while (count < 2) {
+		while (true) {
 			String str = inputReader.readLine();
-			if (str.equals(""))
-				count++;
-			input += str;
+			if (str == null)
+				break;
+			input += str + "\n";
 		}
 		
 		// System.in
-	    InputStream is = new ByteArrayInputStream(input.getBytes(Charset.defaultCharset()));
-	    
-		//new ByteArrayInputStream(input.getBytes(Charset.defaultCharset()) );
+	    InputStream is = new ByteArrayInputStream(input.getBytes(Charset.defaultCharset()) );
 			
 	    LogoTurtleLexer lex = 
 		new LogoTurtleLexer(new ANTLRInputStream(is));
@@ -88,7 +86,7 @@ public class InterpLogoTurtle {
 		    
 		    for (TurtleICodeInstruction i : generator.getInstructionList())
 		    {
-		    	System.out.println(i.generateJVMCode());
+		  //  	System.out.println(i.generateJVMCode());
 		    }
 		} catch (Exception e) {
 		    System.err.println("Something... ... went wrong... ...");
@@ -98,7 +96,7 @@ public class InterpLogoTurtle {
 		
 		jemitter.emitBeginning();
 		
-		for (TurtleICodeNonbranchingInstruction i :generator.getInstructionList())
+		for (TurtleICodeNonbranchingInstruction i : generator.getInstructionList())
 		{
 			i.accept(jemitter);
 		}
@@ -112,7 +110,7 @@ public class InterpLogoTurtle {
 		e.printStackTrace();
 		return;
 	    }
-	    turtle.clearAndRenderScene(true);
+	   // turtle.clearAndRenderScene(true);
 	//}
 	
 	
